@@ -14,7 +14,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <div className="flex flex-col flex-1">
                 <Header />
                 <SubHeader />
-                <div className="flex-1 px-5 min-h-0 overflow-auto">
+                <div className="flex-1 px-5 min-h-0 overflow-auto pb-10">
                     {children}
                 </div>
             </div>
