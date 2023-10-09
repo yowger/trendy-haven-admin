@@ -47,22 +47,3 @@ export default function Sidebar() {
         </div>
     )
 }
-
-// function SidebarLink({ link }) {
-//     const { pathname } = useLocation()
-
-//     return (
-//         <Link
-//             to={link.path}
-//             className={classNames(
-//                 pathname === link.path
-//                     ? "bg-neutral-700 text-white"
-//                     : "text-neutral-400",
-//                 linkClass
-//             )}
-//         >
-//             <span className="text-xl">{link.icon}</span>
-//             {link.label}
-//         </Link>
-//     )
-// }
