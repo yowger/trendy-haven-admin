@@ -1,3 +1,10 @@
+import Header from "@/components/dashboard/Header"
+
 export default function Products() {
-    return <div>Products</div>
+    return (
+        <Header
+            title="Products"
+            description="Ipsum consectetur commodo nisi aliqua mollit fugiat voluptate Lorem duis."
+        />
+    )
 }
