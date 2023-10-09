@@ -21,7 +21,7 @@ export default function Sidebar({ navigationLinks }: SidebarProps) {
             <div className="h-14 flex items-center pl-10">
                 <span className="text-xl font-bold">TrendyHaven</span>
             </div>
-            <div className="pt-2 flex pl-10 pr-5 flex-1 flex-col gap-0.5">
+            <div className="pt-0.5 flex pl-10 pr-5 flex-1 flex-col gap-0.5">
                 <ul>
                     {navigationLinks.map((link, index) => {
                         const isActivePathName = pathname === link.href
