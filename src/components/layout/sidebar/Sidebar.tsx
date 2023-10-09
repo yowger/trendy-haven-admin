@@ -17,8 +17,8 @@ export default function Sidebar({ navigationLinks }: SidebarProps) {
     const pathname = usePathname()
 
     return (
-        <div className="border-r w-60 flex flex-col">
-            <div className="h-14 flex items-center pl-10">
+        <div className="flex flex-col">
+            <div className="h-14 flex items-center pl-10 pr-5">
                 <span className="text-xl font-bold">TrendyHaven</span>
             </div>
             <div className="pt-0.5 flex pl-10 pr-5 flex-1 flex-col gap-0.5">

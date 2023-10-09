@@ -14,14 +14,18 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { navigationLinks } from "@/data/navigationLinks"
 import { useCurrentPage } from "@/hooks/useCurrentPage"
+import SidebarSheet from "@/components/layout/sidebar/SidebarSheet"
 
 export default function Header() {
     const currentPage = useCurrentPage(navigationLinks)
 
     return (
-        <div className="h-14 px-5 flex items-center border-b justify-between">
-            <div>
-                <h1 className="text-lg font-medium">{currentPage}</h1>
+        <div className="h-14 px-4 md:px-5 flex items-center border-b justify-between">
+            <div className="flex items-center">
+                <div className="block md:hidden">
+                    <SidebarSheet />
+                </div>
+                {/* <h1 className="text-lg font-medium">{currentPage}</h1> */}
             </div>
 
             <DropdownMenu>
