@@ -4,17 +4,16 @@ import clsx from "clsx"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
-const links = [
-    { href: "/", label: "Dashboard" },
-    { href: "/categories", label: "Categories" },
-    { href: "/products", label: "Products" },
-    { href: "/sizes", label: "Sizes" },
-    { href: "/colors", label: "Colors" },
-    { href: "/orders", label: "Orders" },
-    { href: "/settings", label: "Settings" },
-]
+interface NavigationLink {
+    href: string
+    label: string
+}
 
-export default function Sidebar() {
+interface SidebarProps {
+    navigationLinks: NavigationLink[]
+}
+
+export default function Sidebar({ navigationLinks }: SidebarProps) {
     const pathname = usePathname()
 
     return (
@@ -24,7 +23,7 @@ export default function Sidebar() {
             </div>
             <div className="pt-2 flex pl-10 pr-5 flex-1 flex-col gap-0.5">
                 <ul>
-                    {links.map((link, index) => {
+                    {navigationLinks.map((link, index) => {
                         const isActivePathName = pathname === link.href
                         return (
                             <li key={index}>
