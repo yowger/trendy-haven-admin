@@ -1,5 +1,6 @@
 import Header from "@/components/layout/header/Header"
 import Sidebar from "@/components/layout/sidebar/Sidebar"
+import SubHeader from "@/components/layout/subHeader/SubHeader"
 import { navigationLinks } from "@/data/navigationLinks"
 
 type RootLayoutProps = {
@@ -12,6 +13,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <Sidebar navigationLinks={navigationLinks} />
             <div className="flex flex-col flex-1">
                 <Header />
+                <SubHeader />
                 <div className="flex-1 p-4 min-h-0 overflow-auto">
                     main Lorem ipsum dolor sit amet consectetur adipisicing
                     elit. Alias ab error sunt odio nam voluptate soluta facere

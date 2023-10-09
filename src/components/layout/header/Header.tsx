@@ -17,6 +17,7 @@ import { useCurrentPage } from "@/hooks/useCurrentPage"
 
 export default function Header() {
     const currentPage = useCurrentPage(navigationLinks)
+
     return (
         <div className="h-14 px-5 flex items-center border-b justify-between">
             <div>
