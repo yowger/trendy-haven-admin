@@ -1,5 +1,6 @@
 "use client"
 
+import { useSession } from "next-auth/react"
 import { LogOut, Settings, User } from "lucide-react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -17,7 +18,12 @@ import { useCurrentPage } from "@/hooks/useCurrentPage"
 import SidebarSheet from "@/components/layout/sidebar/SidebarSheet"
 
 export default function Header() {
+    const { data: session, status } = useSession()
     const currentPage = useCurrentPage(navigationLinks)
+
+    const { user } = session ?? {}
+
+    console.log("user: ", user)
 
     return (
         <div className="h-14 px-4 md:px-5 flex items-center border-b justify-between">
@@ -28,33 +34,35 @@ export default function Header() {
                 {/* <h1 className="text-lg font-medium">{currentPage}</h1> */}
             </div>
 
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Avatar className="w-9 h-9 cursor-pointer hover:brightness-125 duration-300">
-                        <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-48">
-                    <DropdownMenuLabel>Roger Pantil</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuGroup>
+            <div className="flex items-center">
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Avatar className="w-8 h-8 cursor-pointer hover:brightness-125 duration-300">
+                            <AvatarImage src="https://github.com/shadcn.png" />
+                            <AvatarFallback>CN</AvatarFallback>
+                        </Avatar>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-48">
+                        <DropdownMenuLabel>{user?.email}</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuGroup>
+                            <DropdownMenuItem>
+                                <User className="mr-2 h-4 w-4" />
+                                <span>Profile</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <Settings className="mr-2 h-4 w-4" />
+                                <span>Settings</span>
+                            </DropdownMenuItem>
+                        </DropdownMenuGroup>
+                        <DropdownMenuSeparator />
                         <DropdownMenuItem>
-                            <User className="mr-2 h-4 w-4" />
-                            <span>Profile</span>
+                            <LogOut className="mr-2 h-4 w-4" />
+                            <span>Log out</span>
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            <Settings className="mr-2 h-4 w-4" />
-                            <span>Settings</span>
-                        </DropdownMenuItem>
-                    </DropdownMenuGroup>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                        <LogOut className="mr-2 h-4 w-4" />
-                        <span>Log out</span>
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
         </div>
     )
 }
