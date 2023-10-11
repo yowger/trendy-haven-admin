@@ -23,8 +23,6 @@ export default function Header() {
 
     const { user } = session ?? {}
 
-    console.log("user: ", user)
-
     return (
         <div className="h-14 px-4 md:px-5 flex items-center border-b justify-between">
             <div className="flex items-center">

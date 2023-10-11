@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import bcrypt from "bcrypt"
+
 import prisma from "@/lib/prismaDb"
 import { zodCustomError } from "@/lib/zodCustomError"
 import { userRegisterSchema } from "@/schemas/registerSchema"
@@ -41,7 +42,7 @@ export async function POST(request: Request) {
             error,
             "Registration failed: invalid data"
         )
-        
+
         if (zodErrorResponse) {
             return NextResponse.json(zodErrorResponse, { status: 422 })
         }
