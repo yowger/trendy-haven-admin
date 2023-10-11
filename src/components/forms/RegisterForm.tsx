@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 
 import useRegisterUser from "@/hooks/api/useRegisterUser"
 import { userFormRegisterSchema } from "@/schemas/registerSchema"
+import type { UserFormRegister } from "@/schemas/registerSchema"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import {
@@ -18,7 +19,6 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
-import type { UserFormRegister } from "@/schemas/registerSchema"
 
 export default function RegisterForm() {
     const form = useForm<UserFormRegister>({
