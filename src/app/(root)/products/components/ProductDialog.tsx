@@ -101,6 +101,7 @@ export default function ProductDialog() {
     useEffect(() => {
         if (error) {
             // const statusResponse = error.response?.status
+            console.log("errors: ", error)
         }
     }, [error, form])
 
@@ -175,6 +176,13 @@ export default function ProductDialog() {
                                 defaultValue=""
                                 errors={form.formState.errors}
                             />
+
+                            {error && (
+                                <FormMessage>
+                                    Failed to add product, please check your
+                                    internet connection and try again
+                                </FormMessage>
+                            )}
                         </div>
                     </form>
                     <DialogFooter>
