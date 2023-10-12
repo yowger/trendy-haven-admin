@@ -1,5 +1,6 @@
 import { DataTable } from "@/components/ui/data-table"
 import { Payment, columns } from "./columns"
+import useGetProducts from "@/hooks/api/useGetProduct"
 
 async function getData(): Promise<Payment[]> {
     return [
