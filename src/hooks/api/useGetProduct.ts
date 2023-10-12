@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 import axiosPublic from "@/lib/axios"
 import { PRODUCT_QUERY_KEY } from "@/constants/queryKeys"
 
-interface Product {
+export interface Product {
     id: string
     name: string
     price: string
@@ -30,7 +30,12 @@ export const getProducts = async (
     return response.data
 }
 
-const useGetProducts = (page: number = 1, pageSize: number = 10) => {
+interface ProductProps {
+    page?: number
+    pageSize?: number
+}
+
+const useGetProducts = ({ page = 1, pageSize = 10 }: ProductProps) => {
     return useQuery<PagedProductResponse, AxiosError>({
         queryKey: [PRODUCT_QUERY_KEY, page, pageSize],
         queryFn: () => getProducts(page, pageSize),

@@ -49,7 +49,6 @@ export async function POST(request: Request) {
 
 export async function GET(request: NextRequest) {
     try {
-        console.log("get")
         const { searchParams } = new URL(request.url)
 
         const pageNumber = +(searchParams.get("pageNumber") ?? 1)
@@ -61,6 +60,11 @@ export async function GET(request: NextRequest) {
             prisma.product.findMany({
                 skip,
                 take: pageSize,
+                orderBy: [
+                    {
+                        createdAt: "desc",
+                    },
+                ],
             }),
         ])
 
