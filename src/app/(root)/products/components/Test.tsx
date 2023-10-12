@@ -3,14 +3,13 @@
 import { useMemo, useState } from "react"
 import {
     PaginationState,
-    createColumnHelper,
     flexRender,
     getCoreRowModel,
     useReactTable,
 } from "@tanstack/react-table"
+import clsx from "clsx"
 
 import useGetProducts from "@/hooks/api/useGetProduct"
-import { Product } from "@/hooks/api/useGetProduct"
 import {
     Table,
     TableBody,
@@ -20,8 +19,14 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
-import { DataTable } from "@/components/ui/data-table"
 import { columns } from "./columns"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 
 export default function Test() {
     const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
@@ -56,7 +61,7 @@ export default function Test() {
     })
 
     return (
-        <div>
+        <div className="">
             <div className="rounded-md border">
                 <Table>
                     <TableHeader>
@@ -76,7 +81,7 @@ export default function Test() {
                             </TableRow>
                         ))}
                     </TableHeader>
-                    <TableBody>
+                    <TableBody className={clsx(isFetching && "animate-pulse")}>
                         {table.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row) => (
                                 <TableRow key={row.id}>
@@ -144,6 +149,24 @@ export default function Test() {
                         {table.getPageCount()}
                     </div>
                 </span>
+
+                <Select
+                    onValueChange={(pageSize) =>
+                        table.setPageSize(Number(pageSize))
+                    }
+                    defaultValue="10"
+                >
+                    <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Page size" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {[10, 20, 30, 40, 50].map((pageSize) => (
+                            <SelectItem key={pageSize} value={pageSize + ""}>
+                                Show {pageSize}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
             </div>
 
             {/* {data && <DataTable columns={columns} data={data.products} />} */}
