@@ -1,4 +1,4 @@
-import Test from "./Test"
+import Test from "./components/Test"
 import Breadcrumbs from "@/components/layout/subHeader/BreadCrumbs"
 import ProductDialog from "./components/ProductDialog"
 import DashboardTitle from "@/components/dashboard/DashboardTitle"

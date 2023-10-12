@@ -11,6 +11,7 @@ import {
 } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
+import useCreateProduct from "@/hooks/api/useCreateProduct"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -33,6 +34,7 @@ import {
 import { ProductSchema } from "@/schemas/productSchema"
 import type { Product } from "@/schemas/productSchema"
 import { handleDecimalsOnValue } from "@/lib/handlePriceChange"
+import { useToast } from "@/components/ui/use-toast"
 
 const ControllerPlus = <TInput extends string, TOutput>({
     control,
@@ -82,7 +84,9 @@ const ControllerPlus = <TInput extends string, TOutput>({
 }
 
 export default function ProductDialog() {
-    // const { mutate, isLoading, isSuccess, error } = useRegisterUser()
+    const { toast } = useToast()
+
+    const { mutate, isLoading, isSuccess, error } = useCreateProduct()
 
     const form = useForm<Product>({
         resolver: zodResolver(ProductSchema),
@@ -90,15 +94,30 @@ export default function ProductDialog() {
 
     const onSubmit = async (data: Product) => {
         const { name, price } = data
-        console.log("submited: ", data)
-        // mutate({ name, price })
+
+        mutate({ name, price })
     }
 
-    // const onOpenChange = (open: boolean) => {
-    //     if (!open) {
-    //         onClose()
-    //     }
-    // }
+    useEffect(() => {
+        if (error) {
+            // const statusResponse = error.response?.status
+        }
+    }, [error, form])
+
+    useEffect(() => {
+        if (isSuccess) {
+            setIsOpen(false)
+
+            form.reset()
+
+            toast({
+                duration: 2000,
+                description: "Product added successfully!",
+            })
+        }
+    }, [isSuccess, form, toast])
+
+    const [isOpen, setIsOpen] = useState(false)
     const [isMounted, setIsMounted] = useState(false)
 
     useEffect(() => {
@@ -110,7 +129,7 @@ export default function ProductDialog() {
     }
 
     return (
-        <Dialog>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
                 <Button>Add Product</Button>
             </DialogTrigger>
@@ -161,11 +180,11 @@ export default function ProductDialog() {
                     <DialogFooter>
                         <Button
                             onClick={form.handleSubmit(onSubmit)}
-                            // disabled={isLoading}
+                            disabled={isLoading}
                         >
-                            {/* {isLoading && (
+                            {isLoading && (
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            )} */}
+                            )}
                             Add Product
                         </Button>
                         <DialogTrigger asChild>
