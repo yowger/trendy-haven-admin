@@ -1,7 +1,7 @@
 import Test from "./Test"
 import Breadcrumbs from "@/components/layout/subHeader/BreadCrumbs"
 import ProductDialog from "./components/ProductDialog"
-import ProductHeader from "./components/ProductHeader"
+import DashboardTitle from "@/components/dashboard/DashboardTitle"
 
 export default function Products() {
     const breadcrumbItems = [
@@ -13,7 +13,11 @@ export default function Products() {
         <>
             <Breadcrumbs items={breadcrumbItems} />
 
-            <ProductHeader />
+            <DashboardTitle
+                title="Products"
+                description="Ipsum consectetur commodo nisi."
+                rightContent={<ProductDialog />}
+            />
 
             <Test />
         </>

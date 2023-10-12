@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useState } from "react"
 import { Loader2 } from "lucide-react"
 import {
@@ -31,11 +33,6 @@ import {
 import { ProductSchema } from "@/schemas/productSchema"
 import type { Product } from "@/schemas/productSchema"
 import { handleDecimalsOnValue } from "@/lib/handlePriceChange"
-
-interface ProductDialogProps {
-    isOpen: boolean
-    onClose: () => void
-}
 
 const ControllerPlus = <TInput extends string, TOutput>({
     control,
@@ -84,7 +81,7 @@ const ControllerPlus = <TInput extends string, TOutput>({
     )
 }
 
-export default function ProductDialog({ isOpen, onClose }: ProductDialogProps) {
+export default function ProductDialog() {
     // const { mutate, isLoading, isSuccess, error } = useRegisterUser()
 
     const form = useForm<Product>({
@@ -97,15 +94,26 @@ export default function ProductDialog({ isOpen, onClose }: ProductDialogProps) {
         // mutate({ name, price })
     }
 
-    const onOpenChange = (open: boolean) => {
-        if (!open) {
-            onClose()
-        }
+    // const onOpenChange = (open: boolean) => {
+    //     if (!open) {
+    //         onClose()
+    //     }
+    // }
+    const [isMounted, setIsMounted] = useState(false)
+
+    useEffect(() => {
+        setIsMounted(true)
+    }, [])
+
+    if (!isMounted) {
+        return null
     }
 
     return (
-        <Dialog open={isOpen} onOpenChange={onOpenChange}>
-            <DialogTrigger>Open</DialogTrigger>
+        <Dialog>
+            <DialogTrigger asChild>
+                <Button>Add Product</Button>
+            </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Add New Product</DialogTitle>
@@ -160,7 +168,9 @@ export default function ProductDialog({ isOpen, onClose }: ProductDialogProps) {
                             )} */}
                             Add Product
                         </Button>
-                        <Button variant="outline">Cancel</Button>
+                        <DialogTrigger asChild>
+                            <Button variant="outline">Cancel</Button>
+                        </DialogTrigger>
                     </DialogFooter>
                 </Form>
             </DialogContent>
