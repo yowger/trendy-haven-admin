@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react"
 import { Loader2 } from "lucide-react"
-import { useForm } from "react-hook-form"
+import {
+    Control,
+    Controller,
+    FieldErrors,
+    FieldPath,
+    useForm,
+} from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 import { Button } from "@/components/ui/button"
@@ -31,6 +37,53 @@ interface ProductDialogProps {
     onClose: () => void
 }
 
+const ControllerPlus = <TInput extends string, TOutput>({
+    control,
+    transform,
+    name,
+    defaultValue,
+    errors,
+}: {
+    transform: {
+        input: (value: TOutput) => TInput
+        output: (value: React.ChangeEvent<HTMLInputElement>) => TOutput
+    }
+    name: FieldPath<Product>
+    control: Control<Product>
+    defaultValue?: any
+    errors: FieldErrors
+}) => {
+    return (
+        <Controller
+            defaultValue={defaultValue}
+            control={control}
+            name={name}
+            render={({ field }) => {
+                const error = errors[name]
+                return (
+                    <FormItem>
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                            <Input
+                                {...field}
+                                onChange={(e) =>
+                                    field.onChange(transform.output(e))
+                                }
+                                // @ts-ignore
+                                value={transform.input(field.value)}
+                            />
+                        </FormControl>
+                        {error && error.message && (
+                            <FormMessage>{error.message + ""}</FormMessage>
+                        )}
+                        <FormMessage />
+                    </FormItem>
+                )
+            }}
+        />
+    )
+}
+
 export default function ProductDialog({ isOpen, onClose }: ProductDialogProps) {
     // const { mutate, isLoading, isSuccess, error } = useRegisterUser()
 
@@ -40,16 +93,8 @@ export default function ProductDialog({ isOpen, onClose }: ProductDialogProps) {
 
     const onSubmit = async (data: Product) => {
         const { name, price } = data
-
+        console.log("submited: ", data)
         // mutate({ name, price })
-    }
-
-    const [price, setPrice] = useState("")
-
-    const handlePriceChange = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ): void => {
-        setPrice(handleDecimalsOnValue(event.target.value))
     }
 
     const onOpenChange = (open: boolean) => {
@@ -76,33 +121,33 @@ export default function ProductDialog({ isOpen, onClose }: ProductDialogProps) {
                             <FormField
                                 control={form.control}
                                 name="name"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Name</FormLabel>
-                                        <FormControl>
-                                            <Input {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
+                                render={({ field }) => {
+                                    return (
+                                        <FormItem>
+                                            <FormLabel>Name</FormLabel>
+                                            <FormControl>
+                                                <Input {...field} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )
+                                }}
                             />
 
-                            {/* <FormField
+                            <ControllerPlus
+                                transform={{
+                                    input: (value) => String(value),
+                                    output: (event) => {
+                                        return handleDecimalsOnValue(
+                                            event.target.value
+                                        )
+                                    },
+                                }}
                                 control={form.control}
                                 name="price"
-                                render={({ field }) => ( */}
-                            <FormItem>
-                                <FormLabel>Price</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        value={price}
-                                        onChange={handlePriceChange}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                            {/* )} */}
-                            {/* /> */}
+                                defaultValue=""
+                                errors={form.formState.errors}
+                            />
                         </div>
                     </form>
                     <DialogFooter>
