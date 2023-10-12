@@ -17,7 +17,6 @@ const useCreateProduct = () => {
         onSuccess: (userPost) =>
             queryClient.invalidateQueries({
                 queryKey: [PRODUCT_QUERY_KEY],
-                exact: true,
             }),
     })
 }

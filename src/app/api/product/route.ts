@@ -51,9 +51,9 @@ export async function GET(request: NextRequest) {
     try {
         const { searchParams } = new URL(request.url)
 
-        const pageNumber = +(searchParams.get("pageNumber") ?? 1)
+        const pageNumber = +(searchParams.get("pageNumber") ?? 0)
         const pageSize = +(searchParams.get("pageSize") ?? 10)
-        const skip = (pageNumber - 1) * pageSize
+        const skip = pageNumber * pageSize
 
         const [totalCount, products] = await prisma.$transaction([
             prisma.product.count(),
@@ -68,10 +68,10 @@ export async function GET(request: NextRequest) {
             }),
         ])
 
-        const totalPages = Math.ceil(totalCount / pageSize)
+        // const totalPages = Math.ceil(totalCount / pageSize)
 
-        const requestHeaders = new Headers(request.headers)
-        requestHeaders.set("X-Total-Pages", totalPages.toString())
+        // const requestHeaders = new Headers(request.headers)
+        // requestHeaders.set("X-Total-Pages", totalPages.toString())
 
         return NextResponse.json(
             { products, pageNumber, pageSize, totalCount },

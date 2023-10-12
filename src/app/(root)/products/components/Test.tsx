@@ -25,7 +25,7 @@ import { columns } from "./columns"
 
 export default function Test() {
     const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
-        pageIndex: 1,
+        pageIndex: 0,
         pageSize: 10,
     })
 
@@ -40,10 +40,13 @@ export default function Test() {
         [pageIndex, pageSize]
     )
 
+    const productCount = data?.totalCount ?? 0
+    const totalPages = Math.ceil(productCount / pageSize) || 1
+
     const table = useReactTable({
         data: data?.products ?? [],
         columns,
-        pageCount: data?.totalCount,
+        pageCount: totalPages,
         state: {
             pagination,
         },
@@ -133,6 +136,14 @@ export default function Test() {
                 >
                     Last
                 </Button>
+
+                <span className="flex items-center gap-1 text-sm">
+                    <div>Page</div>
+                    <div className="font-bold">
+                        {table.getState().pagination.pageIndex + 1} of{" "}
+                        {table.getPageCount()}
+                    </div>
+                </span>
             </div>
 
             {/* {data && <DataTable columns={columns} data={data.products} />} */}
