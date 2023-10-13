@@ -1,33 +1,15 @@
 import { useMutation } from "@tanstack/react-query"
-import type { AxiosResponse } from "axios"
+import type { AxiosError } from "axios"
 
 import axiosPublic from "@/lib/axios"
 import type { UserRegisterInput } from "@/schemas/registerSchema"
-import { UserRole } from "@/types/productTypes"
 
-interface RegisterUserResponse {
-    user: {
-        id: string
-        name: string | null
-        email: string
-        role: UserRole
-        image: string | null
-        createdAt: Date
-        updatedAt: Date
-    }
-}
-
-const registerUser = async (
-    user: UserRegisterInput
-): Promise<RegisterUserResponse> => {
-    const response: AxiosResponse<RegisterUserResponse> =
-        await axiosPublic.post("/api/register", user)
-
-    return response.data
+const registerUser = (user: UserRegisterInput): Promise<any> => {
+    return axiosPublic.post("/api/register", user)
 }
 
 const useRegisterUser = () => {
-    return useMutation({
+    return useMutation<UserRegisterInput, AxiosError, UserRegisterInput>({
         mutationFn: registerUser,
         cacheTime: 0,
     })
