@@ -37,6 +37,8 @@ export default function Test() {
     const { isLoading, isError, error, data, isFetching, isPreviousData } =
         useGetProducts({ page: pageIndex, pageSize })
 
+    const [rowSelection, setRowSelection] = useState({})
+
     const pagination = useMemo(
         () => ({
             pageIndex,
@@ -54,21 +56,66 @@ export default function Test() {
         pageCount: totalPages,
         state: {
             pagination,
+            rowSelection,
         },
         onPaginationChange: setPagination,
         getCoreRowModel: getCoreRowModel(),
         manualPagination: true,
+        getRowId: (row) => row.id,
+        enableRowSelection: true,
+        onRowSelectionChange: setRowSelection,
     })
 
     return (
         <div className="">
+            <div className="mb-4">
+                <div className="space-y-4">
+                    <div>
+                        <Select
+                            onValueChange={(pageSize) =>
+                                table.setPageSize(Number(pageSize))
+                            }
+                            defaultValue="10"
+                        >
+                            <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder="Page size" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {[10, 20, 30, 40, 50].map((pageSize) => (
+                                    <SelectItem
+                                        key={pageSize}
+                                        value={pageSize + ""}
+                                    >
+                                        Show {pageSize}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+
+                    <div>
+                        {Object.keys(rowSelection).length > 0 && (
+                            <div>
+                                <div className="text-sm">
+                                    {Object.keys(rowSelection).length}{" "}
+                                    <span>items Selected</span>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+
             <div className="rounded-md border">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => (
-                                    <TableHead key={header.id}>
+                                    <TableHead
+                                        key={header.id}
+                                        className="py-1.5"
+                                    >
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
@@ -81,12 +128,15 @@ export default function Test() {
                             </TableRow>
                         ))}
                     </TableHeader>
-                    <TableBody className={clsx(isFetching && "animate-pulse")}>
+                    <TableBody>
                         {table.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row) => (
                                 <TableRow key={row.id}>
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
+                                        <TableCell
+                                            key={cell.id}
+                                            className="py-1.5"
+                                        >
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()
@@ -108,65 +158,37 @@ export default function Test() {
                     </TableBody>
                 </Table>
             </div>
-            <div className="flex items-center justify-end space-x-2 py-4">
-                <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => table.setPageIndex(0)}
-                    disabled={!table.getCanPreviousPage()}
-                >
-                    First
-                </Button>
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.previousPage()}
-                    disabled={!table.getCanPreviousPage()}
-                >
-                    Previous
-                </Button>
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.nextPage()}
-                    disabled={!table.getCanNextPage()}
-                >
-                    Next
-                </Button>
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-                    disabled={!table.getCanNextPage()}
-                >
-                    Last
-                </Button>
+            <div className="flex items-center justify-between space-x-2 py-4">
+                <div className="text-sm">
+                    {table.getState().pagination.pageIndex *
+                        table.getState().pagination.pageIndex +
+                        1}
+                    -
+                    {Math.min(
+                        (table.getState().pagination.pageIndex + 1) * pageSize,
+                        productCount
+                    )}{" "}
+                    of {productCount} items
+                </div>
 
-                <span className="flex items-center gap-1 text-sm">
-                    <div>Page</div>
-                    <div className="font-bold">
-                        {table.getState().pagination.pageIndex + 1} of{" "}
-                        {table.getPageCount()}
-                    </div>
-                </span>
-
-                <Select
-                    onValueChange={(pageSize) =>
-                        table.setPageSize(Number(pageSize))
-                    }
-                    defaultValue="10"
-                >
-                    <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Page size" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {[10, 20, 30, 40, 50].map((pageSize) => (
-                            <SelectItem key={pageSize} value={pageSize + ""}>
-                                Show {pageSize}
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
+                <div className="space-x-2">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        Previous
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        Next
+                    </Button>
+                </div>
             </div>
 
             {/* {data && <DataTable columns={columns} data={data.products} />} */}
