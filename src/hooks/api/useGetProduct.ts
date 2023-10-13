@@ -1,16 +1,9 @@
-import { AxiosError, AxiosResponse } from "axios"
+import { AxiosResponse } from "axios"
 import { useQuery } from "@tanstack/react-query"
 
 import axiosPublic from "@/lib/axios"
 import { PRODUCT_QUERY_KEY } from "@/constants/queryKeys"
-
-export interface Product {
-    id: string
-    name: string
-    price: string
-    createdAt: Date
-    updatedAt: Date
-}
+import type { Product } from "@prisma/client"
 
 interface PagedProductResponse {
     products: Product[]
@@ -36,7 +29,7 @@ interface ProductProps {
 }
 
 const useGetProducts = ({ page = 1, pageSize = 10 }: ProductProps) => {
-    return useQuery<PagedProductResponse, AxiosError>({
+    return useQuery({
         queryKey: [PRODUCT_QUERY_KEY, page, pageSize],
         queryFn: () => getProducts(page, pageSize),
         keepPreviousData: true,

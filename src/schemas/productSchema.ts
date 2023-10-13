@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-export const ProductSchema = z.object({
+export const ProductInputSchema = z.object({
     name: z
         .string()
         .min(1, "Name must be at least 1 character long")
@@ -8,4 +8,4 @@ export const ProductSchema = z.object({
     price: z.string().min(1, "Required"),
 })
 
-export type Product = z.infer<typeof ProductSchema>
+export type ProductInput = z.infer<typeof ProductInputSchema>

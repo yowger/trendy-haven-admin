@@ -24,4 +24,4 @@ export const userFormRegisterSchema = userRegisterSchema
     })
 
 export type UserFormRegister = z.infer<typeof userFormRegisterSchema>
-export type UserRegister = z.infer<typeof userRegisterSchema>
+export type UserRegisterInput = z.infer<typeof userRegisterSchema>

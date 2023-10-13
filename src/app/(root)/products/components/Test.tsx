@@ -27,6 +27,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { ChevronLeft, ChevronRight, Trash } from "lucide-react"
+import { DataTable } from "@/components/ui/data-table"
 
 export default function Test() {
     const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
@@ -49,6 +51,14 @@ export default function Test() {
 
     const productCount = data?.totalCount ?? 0
     const totalPages = Math.ceil(productCount / pageSize) || 1
+
+    const onDeleteSelectedItem = (items: any) => {
+        console.log("items deleted: ", items)
+    }
+
+    const onCancelSelectedItems = () => {
+        setRowSelection({})
+    }
 
     const table = useReactTable({
         data: data?.products ?? [],
@@ -77,10 +87,10 @@ export default function Test() {
                             }
                             defaultValue="10"
                         >
-                            <SelectTrigger className="w-[180px]">
+                            <SelectTrigger className="w-28">
                                 <SelectValue placeholder="Page size" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className="w-28">
                                 {[10, 20, 30, 40, 50].map((pageSize) => (
                                     <SelectItem
                                         key={pageSize}
@@ -93,16 +103,36 @@ export default function Test() {
                         </Select>
                     </div>
 
-                    <div>
-                        {Object.keys(rowSelection).length > 0 && (
-                            <div>
-                                <div className="text-sm">
-                                    {Object.keys(rowSelection).length}{" "}
-                                    <span>items Selected</span>
+                    {Object.keys(rowSelection).length > 0 && (
+                        <div className="flex justify-between items-center">
+                            <span>
+                                <div>
+                                    <div className="text-sm">
+                                        {Object.keys(rowSelection).length}{" "}
+                                        <span>items Selected</span>
+                                    </div>
                                 </div>
+                            </span>
+
+                            <div className="space-x-2">
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className=""
+                                >
+                                    Delete <Trash className="h-4 w-4 ml-2" />
+                                </Button>
+                                <Button
+                                    onClick={onCancelSelectedItems}
+                                    variant="ghost"
+                                    size="sm"
+                                    className=""
+                                >
+                                    Cancel
+                                </Button>
                             </div>
-                        )}
-                    </div>
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -112,10 +142,7 @@ export default function Test() {
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => (
-                                    <TableHead
-                                        key={header.id}
-                                        className="py-1.5"
-                                    >
+                                    <TableHead key={header.id} className="py-3">
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
@@ -131,11 +158,16 @@ export default function Test() {
                     <TableBody>
                         {table.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row) => (
-                                <TableRow key={row.id}>
+                                <TableRow
+                                    key={row.id}
+                                    data-state={
+                                        row.getIsSelected() && "selected"
+                                    }
+                                >
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell
                                             key={cell.id}
-                                            className="py-1.5"
+                                            className="py-3 selected"
                                         >
                                             {flexRender(
                                                 cell.column.columnDef.cell,
@@ -171,14 +203,14 @@ export default function Test() {
                     of {productCount} items
                 </div>
 
-                <div className="space-x-2">
+                <div className="space-x-2 flex items-center">
                     <Button
                         variant="outline"
                         size="sm"
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
                     >
-                        Previous
+                        <ChevronLeft className="h-4 w-4" />
                     </Button>
                     <Button
                         variant="outline"
@@ -186,7 +218,7 @@ export default function Test() {
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
                     >
-                        Next
+                        <ChevronRight className="h-4 w-4" />
                     </Button>
                 </div>
             </div>

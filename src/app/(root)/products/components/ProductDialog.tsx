@@ -31,10 +31,11 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
-import { ProductSchema } from "@/schemas/productSchema"
-import type { Product } from "@/schemas/productSchema"
+import { ProductInputSchema } from "@/schemas/productSchema"
+
 import { handleDecimalsOnValue } from "@/lib/handlePriceChange"
 import { useToast } from "@/components/ui/use-toast"
+import type { Product } from "@/types/productTypes"
 
 const ControllerPlus = <TInput extends string, TOutput>({
     control,
@@ -89,7 +90,7 @@ export default function ProductDialog() {
     const { mutate, isLoading, isSuccess, error } = useCreateProduct()
 
     const form = useForm<Product>({
-        resolver: zodResolver(ProductSchema),
+        resolver: zodResolver(ProductInputSchema),
     })
 
     const onSubmit = async (data: Product) => {
