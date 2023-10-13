@@ -3,8 +3,8 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { format } from "date-fns"
 
-import { Product } from "@/hooks/api/useGetProduct"
 import { Checkbox } from "@/components/ui/checkbox"
+import type { Product } from "@/types/productTypes"
 
 export const columns: ColumnDef<Product>[] = [
     // {
