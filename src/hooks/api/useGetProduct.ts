@@ -1,5 +1,5 @@
-import { AxiosResponse } from "axios"
 import { useQuery } from "@tanstack/react-query"
+import type { AxiosError, AxiosResponse } from "axios"
 
 import axiosPublic from "@/lib/axios"
 import { PRODUCT_QUERY_KEY } from "@/constants/queryKeys"
@@ -29,7 +29,7 @@ interface ProductProps {
 }
 
 const useGetProducts = ({ page = 1, pageSize = 10 }: ProductProps) => {
-    return useQuery({
+    return useQuery<PagedProductResponse, AxiosError>({
         queryKey: [PRODUCT_QUERY_KEY, page, pageSize],
         queryFn: () => getProducts(page, pageSize),
         keepPreviousData: true,
