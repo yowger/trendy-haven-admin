@@ -3,7 +3,7 @@ import type { AxiosError, AxiosResponse } from "axios"
 
 import axiosPublic from "@/lib/axios"
 import { PRODUCT_QUERY_KEY } from "@/constants/queryKeys"
-import type { Product } from "@prisma/client"
+import type { Product } from "@/types/productTypes"
 
 interface PagedProductResponse {
     products: Product[]
