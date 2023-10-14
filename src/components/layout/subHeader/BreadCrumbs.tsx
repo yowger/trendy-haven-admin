@@ -3,10 +3,7 @@
 import clsx from "clsx"
 import Link from "next/link"
 
-interface BreadcrumbItem {
-    href: string
-    label: string
-}
+import type { BreadcrumbItem } from "@/types/breadCrumbTypes"
 
 interface BreadcrumbProps {
     items?: BreadcrumbItem[]
