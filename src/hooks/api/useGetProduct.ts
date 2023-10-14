@@ -13,7 +13,7 @@ interface PagedProductResponse {
 }
 
 export const getProducts = async (
-    page: number = 1,
+    page: number = 0,
     pageSize: number = 10
 ): Promise<PagedProductResponse> => {
     const response: AxiosResponse<PagedProductResponse> = await axiosPublic.get(
@@ -28,7 +28,7 @@ interface ProductProps {
     pageSize?: number
 }
 
-const useGetProducts = ({ page = 1, pageSize = 10 }: ProductProps) => {
+const useGetProducts = ({ page = 0, pageSize = 10 }: ProductProps) => {
     return useQuery<PagedProductResponse, AxiosError>({
         queryKey: [PRODUCT_QUERY_KEY, page, pageSize],
         queryFn: () => getProducts(page, pageSize),

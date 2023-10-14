@@ -47,6 +47,10 @@ export default function Test() {
         isFetching: productsIsFetching,
         isPreviousData: productsIsPreviousData,
     } = useGetProducts({ page: pageIndex, pageSize })
+    console.log(
+        "🚀 ~ file: Test.tsx:50 ~ Test ~ productsLoading:",
+        productsLoading
+    )
 
     const [rowSelection, setRowSelection] = useState<Record<string, boolean>>(
         {}
@@ -162,7 +166,7 @@ export default function Test() {
                             <div className="space-x-2">
                                 <Button
                                     onClick={onDeleteSelectedItems}
-                                    variant="outline"
+                                    variant="default"
                                     size="sm"
                                     className=""
                                 >
@@ -249,10 +253,16 @@ export default function Test() {
                     of {productCount} items
                 </div>
 
+                {/* 
+                Todo:
+                    - Add prefetch when hovering next previous button  
+                    - Add hydration
+                */}
                 <div className="space-x-2 flex items-center">
                     <Button
                         variant="outline"
                         size="sm"
+                        onMouseEnter={() => {}}
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
                     >
@@ -261,6 +271,7 @@ export default function Test() {
                     <Button
                         variant="outline"
                         size="sm"
+                        onMouseEnter={() => {}}
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
                     >

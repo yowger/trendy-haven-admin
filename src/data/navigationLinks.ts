@@ -5,8 +5,9 @@ interface NavigationLink {
 
 export const navigationLinks: NavigationLink[] = [
     { href: "/", label: "Dashboard" },
-    { href: "/categories", label: "Categories" },
+    { href: "/stores", label: "Stores" },
     { href: "/products", label: "Products" },
+    { href: "/categories", label: "Categories" },
     { href: "/sizes", label: "Sizes" },
     { href: "/colors", label: "Colors" },
     { href: "/orders", label: "Orders" },
