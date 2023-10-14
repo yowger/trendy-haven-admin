@@ -6,7 +6,11 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
 import queryClientOptions from "@/config/QueryClientOptions"
 
-export function TanstackProvider({ children }: { children: React.ReactNode }) {
+export function TanstackProvider({
+    children,
+}: {
+    children: React.ReactNode
+}): JSX.Element {
     const [queryClient] = useState(() => new QueryClient(queryClientOptions))
 
     return (

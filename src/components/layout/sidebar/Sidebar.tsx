@@ -13,7 +13,9 @@ interface SidebarProps {
     navigationLinks: NavigationLink[]
 }
 
-export default function Sidebar({ navigationLinks }: SidebarProps) {
+export default function Sidebar({
+    navigationLinks,
+}: SidebarProps): JSX.Element {
     const pathname = usePathname()
 
     return (
@@ -24,7 +26,7 @@ export default function Sidebar({ navigationLinks }: SidebarProps) {
             <div className="pt-0.5 flex pl-10 pr-5 flex-1 flex-col gap-0.5">
                 <ul>
                     {navigationLinks.map((link, index) => {
-                        const isActivePathName = pathname === link.href
+                        const isActivePathName: boolean = pathname === link.href
                         return (
                             <li key={index}>
                                 <Link

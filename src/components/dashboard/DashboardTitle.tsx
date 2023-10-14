@@ -8,7 +8,7 @@ export default function DashboardTitle({
     title,
     description,
     rightContent,
-}: DashboardTitleProps) {
+}: DashboardTitleProps): JSX.Element {
     return (
         <div className="flex justify-between items-center mb-7">
             <div>

@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-export default function NotFound() {
+export default function NotFound(): JSX.Element {
     return (
         <div>
             <h2>Not Found</h2>

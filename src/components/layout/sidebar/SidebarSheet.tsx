@@ -6,9 +6,9 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import Sidebar from "@/components/layout/sidebar/Sidebar"
 import { navigationLinks } from "@/data/navigationLinks"
 
-export default function SidebarSheet() {
+export default function SidebarSheet(): JSX.Element {
     const pathname = usePathname()
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState<boolean>(false)
 
     useEffect(() => {
         if (pathname) {

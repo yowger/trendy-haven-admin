@@ -17,7 +17,7 @@ import { navigationLinks } from "@/data/navigationLinks"
 import { useCurrentPage } from "@/hooks/useCurrentPage"
 import SidebarSheet from "@/components/layout/sidebar/SidebarSheet"
 
-export default function Header() {
+export default function Header(): JSX.Element {
     const { data: session, status } = useSession()
     const currentPage = useCurrentPage(navigationLinks)
 

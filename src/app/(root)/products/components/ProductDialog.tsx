@@ -52,7 +52,7 @@ const ControllerPlus = <TInput extends string, TOutput>({
     control: Control<Product>
     defaultValue?: any
     errors: FieldErrors
-}) => {
+}): JSX.Element => {
     return (
         <Controller
             defaultValue={defaultValue}

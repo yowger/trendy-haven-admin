@@ -1,4 +1,9 @@
-export const navigationLinks = [
+interface NavigationLink {
+    href: string
+    label: string
+}
+
+export const navigationLinks: NavigationLink[] = [
     { href: "/", label: "Dashboard" },
     { href: "/categories", label: "Categories" },
     { href: "/products", label: "Products" },
