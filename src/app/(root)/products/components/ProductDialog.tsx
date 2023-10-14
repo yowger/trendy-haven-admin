@@ -88,10 +88,6 @@ export default function ProductDialog() {
     const { toast } = useToast()
 
     const { data, mutate, isLoading, isSuccess, error } = useCreateProduct()
-    console.log(
-        "🚀 ~ file: ProductDialog.tsx:91 ~ ProductDialog ~ data:",
-        data?.product.name
-    )
 
     const form = useForm<Product>({
         resolver: zodResolver(ProductInputSchema),

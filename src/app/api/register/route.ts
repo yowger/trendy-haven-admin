@@ -50,7 +50,7 @@ export async function POST(request: Request) {
         console.log("Registration error: ", error)
 
         return NextResponse.json(
-            { message: "Registration Error" },
+            { message: "Server error" },
             { status: 500 }
         )
     }

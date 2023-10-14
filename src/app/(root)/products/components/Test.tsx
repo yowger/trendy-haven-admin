@@ -1,13 +1,12 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import {
     PaginationState,
     flexRender,
     getCoreRowModel,
     useReactTable,
 } from "@tanstack/react-table"
-import clsx from "clsx"
 
 import useGetProducts from "@/hooks/api/useGetProduct"
 import {
@@ -28,18 +27,30 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { ChevronLeft, ChevronRight, Trash } from "lucide-react"
-import { DataTable } from "@/components/ui/data-table"
+import useDeleteProducts from "@/hooks/api/useDeleteProducts"
+import { ConfirmDialog } from "@/components/dialogs/ConfirmDialog"
+import { useToast } from "@/components/ui/use-toast"
 
 export default function Test() {
+    const { toast } = useToast()
+
     const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
         pageIndex: 0,
         pageSize: 10,
     })
 
-    const { isLoading, isError, error, data, isFetching, isPreviousData } =
-        useGetProducts({ page: pageIndex, pageSize })
+    const {
+        isLoading: productsLoading,
+        isError: productsError,
+        error: productsErrorMessage,
+        data: productsData,
+        isFetching: productsIsFetching,
+        isPreviousData: productsIsPreviousData,
+    } = useGetProducts({ page: pageIndex, pageSize })
 
-    const [rowSelection, setRowSelection] = useState({})
+    const [rowSelection, setRowSelection] = useState<Record<string, boolean>>(
+        {}
+    )
 
     const pagination = useMemo(
         () => ({
@@ -49,19 +60,53 @@ export default function Test() {
         [pageIndex, pageSize]
     )
 
-    const productCount = data?.totalCount ?? 0
+    const productCount = productsData?.totalCount ?? 0
     const totalPages = Math.ceil(productCount / pageSize) || 1
 
-    const onDeleteSelectedItem = (items: any) => {
-        console.log("items deleted: ", items)
+    const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] =
+        useState<boolean>(false)
+
+    const {
+        data: deleteData,
+        mutate: deleteMutate,
+        isLoading: deleteLoading,
+        isSuccess: deleteSuccess,
+        error: deleteError,
+    } = useDeleteProducts()
+
+    const onDeleteSelectedItems = (): void => {
+        setIsDeleteConfirmOpen(true)
     }
 
-    const onCancelSelectedItems = () => {
+    const OnDeleteConfirm = (): void => {
+        const deleteSelectedProducts = (): void => {
+            const selectedProductIds: string[] = Object.keys(
+                rowSelection
+            ).filter((productId) => rowSelection[productId])
+
+            deleteMutate(selectedProductIds)
+        }
+
+        deleteSelectedProducts()
+    }
+
+    useEffect(() => {
+        if (deleteSuccess) {
+            setRowSelection({})
+            setIsDeleteConfirmOpen(false)
+            toast({
+                duration: 2000,
+                description: "Products deleted successfully!",
+            })
+        }
+    }, [deleteSuccess, toast])
+
+    const onCancelSelectedItems = (): void => {
         setRowSelection({})
     }
 
     const table = useReactTable({
-        data: data?.products ?? [],
+        data: productsData?.products ?? [],
         columns,
         pageCount: totalPages,
         state: {
@@ -77,7 +122,7 @@ export default function Test() {
     })
 
     return (
-        <div className="">
+        <>
             <div className="mb-4">
                 <div className="space-y-4">
                     <div>
@@ -116,6 +161,7 @@ export default function Test() {
 
                             <div className="space-x-2">
                                 <Button
+                                    onClick={onDeleteSelectedItems}
                                     variant="outline"
                                     size="sm"
                                     className=""
@@ -223,11 +269,14 @@ export default function Test() {
                 </div>
             </div>
 
-            {/* {data && <DataTable columns={columns} data={data.products} />} */}
-        </div>
+            <ConfirmDialog
+                title="Delete Selected Products"
+                description="Are you sure you want to delete the selected products? This action cannot be undone."
+                isOpen={isDeleteConfirmOpen}
+                isLoading={deleteLoading}
+                onConfirm={OnDeleteConfirm}
+                onClose={() => setIsDeleteConfirmOpen(false)}
+            />
+        </>
     )
-}
-
-{
-    /* {data && <DataTable columns={columns} data={data.products} />} */
 }

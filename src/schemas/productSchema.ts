@@ -9,3 +9,7 @@ export const ProductInputSchema = z.object({
 })
 
 export type ProductInput = z.infer<typeof ProductInputSchema>
+
+export const ProductIdsSchema = z.array(z.string())
+
+export type ProductIds = z.infer<typeof ProductIdsSchema>

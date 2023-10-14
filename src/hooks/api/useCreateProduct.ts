@@ -23,7 +23,7 @@ const useCreateProduct = () => {
 
     return useMutation<CreatedProductResponse, AxiosError, ProductInput>({
         mutationFn: createProduct,
-        onSuccess: (userPost) =>
+        onSuccess: (product) =>
             queryClient.invalidateQueries({
                 queryKey: [PRODUCT_QUERY_KEY],
             }),

@@ -4,8 +4,8 @@ import { getServerSession } from "next-auth"
 import prisma from "@/lib/prismaDb"
 import { zodCustomError } from "@/lib/zodCustomError"
 import { authOptions } from "@/config/nextAuthOptions"
-import { ProductInputSchema } from "@/schemas/productSchema"
-import type { Product } from "@prisma/client"
+import { ProductIdsSchema, ProductInputSchema } from "@/schemas/productSchema"
+import type { ProductInput, ProductIds } from "@/schemas/productSchema"
 
 export async function POST(request: Request) {
     try {
@@ -19,7 +19,7 @@ export async function POST(request: Request) {
             )
         }
 
-        const body: Product = await request.json()
+        const body: ProductInput = await request.json()
         const parsedBody = ProductInputSchema.parse(body)
 
         const product = await prisma.product.create({
@@ -30,19 +30,16 @@ export async function POST(request: Request) {
     } catch (error) {
         const zodErrorResponse = zodCustomError(
             error,
-            "Registration failed: invalid data"
+            "Failed to create product: invalid data"
         )
 
         if (zodErrorResponse) {
             return NextResponse.json(zodErrorResponse, { status: 422 })
         }
 
-        console.log("Registration error: ", error)
+        console.log("Failed to create product error: ", error)
 
-        return NextResponse.json(
-            { message: "Registration Error" },
-            { status: 500 }
-        )
+        return NextResponse.json({ message: "Server Error" }, { status: 500 })
     }
 }
 
@@ -79,32 +76,43 @@ export async function GET(request: NextRequest) {
     } catch (error) {
         console.log("Failed to fetch products: ", error)
 
-        return NextResponse.json(
-            { message: "Failed to fetch products" },
-            { status: 500 }
-        )
+        return NextResponse.json({ message: "Server error" }, { status: 500 })
     }
+}
+
+interface DeleteProductRequestBody {
+    productIds: ProductIds
 }
 
 export async function DELETE(request: NextRequest) {
     try {
-        // ids.
+        const body: DeleteProductRequestBody = await request.json()
+        const parsedBody: string[] = ProductIdsSchema.parse(body.productIds)
 
-        // const response = await prisma.product.deleteMany({
-        //     where: {
-        //         id: {
-        //             in: [1,2,3,4,5]
-        //         }
-        //     }
-        // })
-
-        return NextResponse.json({}, { status: 200 })
-    } catch (error) {
-        console.log("Failed to fetch products: ", error)
+        const response = await prisma.product.deleteMany({
+            where: {
+                id: {
+                    in: parsedBody,
+                },
+            },
+        })
 
         return NextResponse.json(
-            { message: "Failed to fetch products" },
-            { status: 500 }
+            { message: `${response.count} products deleted` },
+            { status: 200 }
         )
+    } catch (error) {
+        const zodErrorResponse = zodCustomError(
+            error,
+            "Registration failed: invalid data"
+        )
+
+        if (zodErrorResponse) {
+            return NextResponse.json(zodErrorResponse, { status: 422 })
+        }
+
+        console.log("Failed to delete products: ", error)
+
+        return NextResponse.json({ message: "Server error" }, { status: 500 })
     }
 }
