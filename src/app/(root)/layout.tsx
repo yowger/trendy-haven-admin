@@ -1,13 +1,13 @@
 import Header from "@/components/layout/header/Header"
 import Sidebar from "@/components/layout/sidebar/Sidebar"
-// import SubHeader from "@/components/layout/subHeader/SubHeader"
+
 import { navigationLinks } from "@/data/navigationLinks"
 
 type RootLayoutProps = {
     children: React.ReactNode
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
     return (
         <div className="h-screen w-screen overflow-hidden flex flex-row">
             <div className="border-r w-60 hidden md:block">

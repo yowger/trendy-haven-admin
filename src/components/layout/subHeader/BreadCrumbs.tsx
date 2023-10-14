@@ -6,31 +6,33 @@ import Link from "next/link"
 import type { BreadcrumbItem } from "@/types/breadCrumbTypes"
 
 interface BreadcrumbProps {
-    items?: BreadcrumbItem[]
+    breadcrumbItems?: BreadcrumbItem[]
 }
 
-export default function Breadcrumbs({ items }: BreadcrumbProps) {
+export default function Breadcrumbs({
+    breadcrumbItems,
+}: BreadcrumbProps): JSX.Element {
     return (
         <div className="flex items-center mb-3">
             <nav aria-label="breadcrumb">
                 <ol className="flex">
-                    {items?.map((item, index) => (
+                    {breadcrumbItems?.map((breadcrumbItem, index) => (
                         <li
                             key={index}
                             className={clsx(
                                 "text-sm",
-                                index === items.length - 1
+                                index === breadcrumbItems.length - 1
                                     ? "text-primary pointer-events-none"
                                     : "text-muted-foreground"
                             )}
                         >
-                            {index === items.length - 1 ? (
-                                item.label
+                            {index === breadcrumbItems.length - 1 ? (
+                                breadcrumbItem.label
                             ) : (
                                 <>
-                                    <Link href={item.href}>
+                                    <Link href={breadcrumbItem.href}>
                                         <span className="hover:underline">
-                                            {item.label}
+                                            {breadcrumbItem.label}
                                         </span>
                                     </Link>
                                     <span className="mx-2">/</span>

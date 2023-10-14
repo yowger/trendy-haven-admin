@@ -12,7 +12,7 @@ export default function Products(): JSX.Element {
 
     return (
         <>
-            <Breadcrumbs items={breadcrumbItems} />
+            <Breadcrumbs breadcrumbItems={breadcrumbItems} />
 
             <DashboardTitle
                 title="Products"
