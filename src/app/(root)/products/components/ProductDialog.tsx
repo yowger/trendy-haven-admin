@@ -84,7 +84,7 @@ const ControllerPlus = <TInput extends string, TOutput>({
     )
 }
 
-export default function ProductDialog() {
+export default function ProductDialog(): JSX.Element | null {
     const { toast } = useToast()
 
     const { data, mutate, isLoading, isSuccess, error } = useCreateProduct()
@@ -93,7 +93,7 @@ export default function ProductDialog() {
         resolver: zodResolver(ProductInputSchema),
     })
 
-    const onSubmit = async (data: Product) => {
+    const onSubmit = (data: Product): void => {
         const { name, price } = data
 
         mutate({ name, price })
@@ -119,8 +119,8 @@ export default function ProductDialog() {
         }
     }, [isSuccess, form, toast])
 
-    const [isOpen, setIsOpen] = useState(false)
-    const [isMounted, setIsMounted] = useState(false)
+    const [isOpen, setIsOpen] = useState<boolean>(false)
+    const [isMounted, setIsMounted] = useState<boolean>(false)
 
     useEffect(() => {
         setIsMounted(true)

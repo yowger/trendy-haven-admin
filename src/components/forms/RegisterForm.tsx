@@ -20,7 +20,7 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 
-export default function RegisterForm() {
+export default function RegisterForm(): JSX.Element {
     const form = useForm<UserFormRegister>({
         resolver: zodResolver(userFormRegisterSchema),
     })
@@ -35,11 +35,11 @@ export default function RegisterForm() {
 
     useEffect(() => {
         if (error) {
-            const statusResponse = error.response?.status
+            const statusResponse: number | undefined = error.response?.status
 
             if (statusResponse === 409) {
-                const email = form.getValues("email")
-                const message = `${email} is already taken`
+                const email: string = form.getValues("email")
+                const message: string = `${email} is already taken`
 
                 form.control.setError(
                     "email",
@@ -57,7 +57,10 @@ export default function RegisterForm() {
 
     useEffect(() => {
         if (isSuccess) {
-            const [email, password] = form.getValues(["email", "password"])
+            const [email, password]: [string, string] = form.getValues([
+                "email",
+                "password",
+            ])
 
             signIn("credentials", {
                 email,

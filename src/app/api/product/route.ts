@@ -64,11 +64,6 @@ export async function GET(request: NextRequest) {
             }),
         ])
 
-        // const totalPages = Math.ceil(totalCount / pageSize)
-
-        // const requestHeaders = new Headers(request.headers)
-        // requestHeaders.set("X-Total-Pages", totalPages.toString())
-
         return NextResponse.json(
             { products, pageNumber, pageSize, totalCount },
             { status: 200 }
@@ -116,3 +111,8 @@ export async function DELETE(request: NextRequest) {
         return NextResponse.json({ message: "Server error" }, { status: 500 })
     }
 }
+
+// const totalPages = Math.ceil(totalCount / pageSize)
+
+// const requestHeaders = new Headers(request.headers)
+// requestHeaders.set("X-Total-Pages", totalPages.toString())
