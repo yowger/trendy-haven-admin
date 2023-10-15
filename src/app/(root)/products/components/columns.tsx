@@ -7,10 +7,10 @@ import { Checkbox } from "@/components/ui/checkbox"
 import type { Product } from "@/types/productTypes"
 
 export const columns: ColumnDef<Product>[] = [
-    // {
-    //     accessorKey: "id",
-    //     header: "ID",
-    // },
+    {
+        accessorKey: "id",
+        header: "ID",
+    },
     {
         id: "select",
         header: ({ table }) => (

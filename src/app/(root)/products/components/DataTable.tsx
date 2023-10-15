@@ -113,9 +113,16 @@ export default function DataTable(): JSX.Element {
         data: productsData?.products ?? [],
         columns,
         pageCount: totalPages,
+        enableHiding: true,
         state: {
             pagination,
             rowSelection,
+        },
+        initialState: {
+            columnVisibility: {
+                id: false,
+                createdAt: false,
+            },
         },
         onPaginationChange: setPagination,
         getCoreRowModel: getCoreRowModel(),
@@ -137,7 +144,7 @@ export default function DataTable(): JSX.Element {
                                 size="sm"
                                 className=""
                             >
-                                <Trash className="h-4 w-4 mr-2" /> Delete
+                                <Trash className="h-4 w-4 mr-2" /> Delete rows
                             </Button>
                             <Button
                                 onClick={onCancelSelectedItems}
