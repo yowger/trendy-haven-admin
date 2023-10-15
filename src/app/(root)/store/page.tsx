@@ -1,10 +1,10 @@
-import Test2 from "./components/Test2"
+import CreateStoreForm from "./components/CreateStoreForm"
 
 export default function Store(): JSX.Element {
     return (
         <div>
             Store
-            <Test2 />
+            <CreateStoreForm />
         </div>
     )
 }
