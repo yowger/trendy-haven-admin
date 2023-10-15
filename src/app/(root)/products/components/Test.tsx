@@ -166,7 +166,7 @@ export default function Test() {
                             <div className="space-x-2">
                                 <Button
                                     onClick={onDeleteSelectedItems}
-                                    variant="default"
+                                    variant="destructive"
                                     size="sm"
                                     className=""
                                 >

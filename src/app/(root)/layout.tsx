@@ -10,7 +10,7 @@ type RootLayoutProps = {
 export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
     return (
         <div className="h-screen w-screen overflow-hidden flex flex-row">
-            <div className="border-r w-60 hidden md:block">
+            <div className="border-r w-1/6 min-w-[256px] hidden md:block">
                 <Sidebar navigationLinks={navigationLinks} />
             </div>
             <div className="flex flex-col flex-1">

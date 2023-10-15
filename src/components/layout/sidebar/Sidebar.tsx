@@ -19,12 +19,12 @@ export default function Sidebar({
     const pathname = usePathname()
 
     return (
-        <div className="flex flex-col">
-            <div className="h-14 flex items-center pl-10 pr-5">
+        <div className="flex flex-col pr-5">
+            <div className="h-14 flex items-center pl-10">
                 <span className="text-xl font-bold">TrendyHaven</span>
             </div>
-            <div className="pt-0.5 flex pl-10 pr-5 flex-1 flex-col gap-0.5">
-                <ul>
+            <div className="pt-0.5 pl-6">
+                <ul className="space-y-1 flex flex-col w-full">
                     {navigationLinks.map((link, index) => {
                         const isActivePathName: boolean = pathname === link.href
                         return (
@@ -32,10 +32,10 @@ export default function Sidebar({
                                 <Link
                                     href={link.href}
                                     className={clsx(
-                                        "font-medium py-1.5 block",
+                                        "font-medium block items-center rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none hover:text-accent-foreground disabled:opacity-50 justify-start h-9 px-4 py-2",
                                         isActivePathName
-                                            ? "text-primary cursor-default pointer-events-none"
-                                            : "text-muted-foreground hover:underline"
+                                            ? "bg-muted hover:bg-muted  cursor-default pointer-events-none"
+                                            : "hover:text-accent-foreground hover:bg-transparent hover:underline"
                                     )}
                                 >
                                     {link.label}
