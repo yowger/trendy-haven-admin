@@ -1,21 +1,16 @@
 interface DashboardTitleProps {
     title: string
     description: string
-    rightContent?: React.ReactNode
 }
 
 export default function DashboardTitle({
     title,
     description,
-    rightContent,
 }: DashboardTitleProps): JSX.Element {
     return (
-        <div className="flex justify-between items-center mb-7">
-            <div>
-                <h2 className="text-3xl font-bold tracking-tight">{title}</h2>
-                <p className="text-sm text-muted-foreground">{description}</p>
-            </div>
-            {rightContent && <div className="ml-4">{rightContent}</div>}
+        <div className="flex-1 lg:max-w-2xl">
+            <h3 className="text-lg font-medium">{title}</h3>
+            <p className="text-sm text-muted-foreground">{description}</p>
         </div>
     )
 }

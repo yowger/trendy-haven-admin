@@ -31,7 +31,7 @@ import useDeleteProducts from "@/hooks/api/useDeleteProducts"
 import { ConfirmDialog } from "@/components/dialogs/ConfirmDialog"
 import { useToast } from "@/components/ui/use-toast"
 
-export default function Test() {
+export default function DataTable(): JSX.Element {
     const { toast } = useToast()
 
     const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
@@ -126,61 +126,27 @@ export default function Test() {
     })
 
     return (
-        <>
+        <div>
             <div className="mb-4">
                 <div className="space-y-4">
-                    <div>
-                        <Select
-                            onValueChange={(pageSize) =>
-                                table.setPageSize(Number(pageSize))
-                            }
-                            defaultValue="10"
-                        >
-                            <SelectTrigger className="w-28">
-                                <SelectValue placeholder="Page size" />
-                            </SelectTrigger>
-                            <SelectContent className="w-28">
-                                {[10, 20, 30, 40, 50].map((pageSize) => (
-                                    <SelectItem
-                                        key={pageSize}
-                                        value={pageSize + ""}
-                                    >
-                                        Show {pageSize}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
-
                     {Object.keys(rowSelection).length > 0 && (
-                        <div className="flex justify-between items-center">
-                            <span>
-                                <div>
-                                    <div className="text-sm">
-                                        {Object.keys(rowSelection).length}{" "}
-                                        <span>items Selected</span>
-                                    </div>
-                                </div>
-                            </span>
-
-                            <div className="space-x-2">
-                                <Button
-                                    onClick={onDeleteSelectedItems}
-                                    variant="destructive"
-                                    size="sm"
-                                    className=""
-                                >
-                                    Delete <Trash className="h-4 w-4 ml-2" />
-                                </Button>
-                                <Button
-                                    onClick={onCancelSelectedItems}
-                                    variant="ghost"
-                                    size="sm"
-                                    className=""
-                                >
-                                    Cancel
-                                </Button>
-                            </div>
+                        <div className="flex items-center space-x-4">
+                            <Button
+                                onClick={onDeleteSelectedItems}
+                                variant="outline"
+                                size="sm"
+                                className=""
+                            >
+                                <Trash className="h-4 w-4 mr-2" /> Delete
+                            </Button>
+                            <Button
+                                onClick={onCancelSelectedItems}
+                                variant="ghost"
+                                size="sm"
+                                className="text-muted-foreground"
+                            >
+                                Cancel
+                            </Button>
                         </div>
                     )}
                 </div>
@@ -192,7 +158,7 @@ export default function Test() {
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => (
-                                    <TableHead key={header.id} className="py-3">
+                                    <TableHead key={header.id}>
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
@@ -215,10 +181,7 @@ export default function Test() {
                                     }
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell
-                                            key={cell.id}
-                                            className="py-3 selected"
-                                        >
+                                        <TableCell key={cell.id}>
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()
@@ -241,16 +204,9 @@ export default function Test() {
                 </Table>
             </div>
             <div className="flex items-center justify-between space-x-2 py-4">
-                <div className="text-sm">
-                    {table.getState().pagination.pageIndex *
-                        table.getState().pagination.pageIndex +
-                        1}
-                    -
-                    {Math.min(
-                        (table.getState().pagination.pageIndex + 1) * pageSize,
-                        productCount
-                    )}{" "}
-                    of {productCount} items
+                <div className="text-sm text-muted-foreground">
+                    {Object.keys(rowSelection).length} of {productCount} row(s)
+                    selected.
                 </div>
 
                 {/* 
@@ -258,25 +214,54 @@ export default function Test() {
                     - Add prefetch when hovering next previous button  
                     - Add hydration
                 */}
-                <div className="space-x-2 flex items-center">
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onMouseEnter={() => {}}
-                        onClick={() => table.previousPage()}
-                        disabled={!table.getCanPreviousPage()}
-                    >
-                        <ChevronLeft className="h-4 w-4" />
-                    </Button>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onMouseEnter={() => {}}
-                        onClick={() => table.nextPage()}
-                        disabled={!table.getCanNextPage()}
-                    >
-                        <ChevronRight className="h-4 w-4" />
-                    </Button>
+                <div className="flex items-center space-x-6 lg:space-x-8">
+                    <div>
+                        <Select
+                            onValueChange={(pageSize) =>
+                                table.setPageSize(Number(pageSize))
+                            }
+                            defaultValue="10"
+                        >
+                            <div className="flex items-center space-x-2">
+                                <p className="text-sm font-medium">
+                                    Rows per page
+                                </p>
+                                <SelectTrigger className="w-28">
+                                    <SelectValue placeholder="Page size" />
+                                </SelectTrigger>
+                                <SelectContent className="w-28">
+                                    {[10, 20, 30, 40, 50].map((pageSize) => (
+                                        <SelectItem
+                                            key={pageSize}
+                                            value={pageSize + ""}
+                                        >
+                                            {pageSize}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </div>
+                        </Select>
+                    </div>
+                    <div className="space-x-2 flex items-center">
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onMouseEnter={() => {}}
+                            onClick={() => table.previousPage()}
+                            disabled={!table.getCanPreviousPage()}
+                        >
+                            <ChevronLeft className="h-4 w-4" />
+                        </Button>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onMouseEnter={() => {}}
+                            onClick={() => table.nextPage()}
+                            disabled={!table.getCanNextPage()}
+                        >
+                            <ChevronRight className="h-4 w-4" />
+                        </Button>
+                    </div>
                 </div>
             </div>
 
@@ -288,6 +273,6 @@ export default function Test() {
                 onConfirm={OnDeleteConfirm}
                 onClose={() => setIsDeleteConfirmOpen(false)}
             />
-        </>
+        </div>
     )
 }
