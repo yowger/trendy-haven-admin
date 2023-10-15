@@ -242,6 +242,12 @@ export default function DataTable(): JSX.Element {
                             </div>
                         </Select>
                     </div>
+
+                    <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+                        Page {table.getState().pagination.pageIndex + 1} of{" "}
+                        {totalPages}
+                    </div>
+
                     <div className="space-x-2 flex items-center">
                         <Button
                             variant="outline"

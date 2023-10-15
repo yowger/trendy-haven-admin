@@ -53,7 +53,10 @@ export default function CreateProductForm(): JSX.Element {
 
     useEffect(() => {
         if (isSuccess) {
-            form.reset()
+            form.reset({
+                name: "",
+                price: "",
+            })
 
             toast({
                 duration: 2000,
