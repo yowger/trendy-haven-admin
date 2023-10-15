@@ -11,7 +11,9 @@ export default function CreateProductPage(): JSX.Element {
                 description=" Enter the details of your new product below."
             />
             <Separator />
-            <CreateProductForm />
+            <div className="lg:max-w-2xl">
+                <CreateProductForm />
+            </div>
         </div>
     )
 }
