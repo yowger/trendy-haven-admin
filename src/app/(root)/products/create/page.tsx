@@ -1,11 +1,11 @@
-import { Separator } from "@/components/ui/separator"
 import DashboardTitle from "@/components/dashboard/DashboardTitle"
+import { Separator } from "@/components/ui/separator"
 
-import CreateProductForm from "./CreateProductForm"
+import CreateProductForm from "../components/CreateProductForm"
 
-export default function CreateProductPage(): JSX.Element {
+export default function page() {
     return (
-        <div className="space-y-6">
+        <>
             <DashboardTitle
                 title="Create a New Product"
                 description=" Enter the details of your new product below."
@@ -14,6 +14,6 @@ export default function CreateProductPage(): JSX.Element {
             <div className="lg:max-w-2xl">
                 <CreateProductForm />
             </div>
-        </div>
+        </>
     )
 }

@@ -2,10 +2,12 @@ import { dehydrate } from "@tanstack/react-query"
 
 import HydrateClient from "@/components/tanstack/HydrateClient"
 import getQueryClient from "@/lib/getQueryClient"
-import { PRODUCT_QUERY_KEY } from "@/constants/queryKeys"
 import { getProducts } from "@/hooks/api/useGetProduct"
+import { Separator } from "@/components/ui/separator"
+import DashboardTitle from "@/components/dashboard/DashboardTitle"
+import { PRODUCT_QUERY_KEY } from "@/constants/queryKeys"
 
-import ProductTabs from "./components/ProductTabs"
+import DataTable from "./components/DataTable"
 
 export default async function Products(): Promise<JSX.Element> {
     const queryClient = getQueryClient()
@@ -18,10 +20,15 @@ export default async function Products(): Promise<JSX.Element> {
     const dehydratedState = dehydrate(queryClient)
 
     return (
-        <div>
+        <>
             <HydrateClient state={dehydratedState}>
-                <ProductTabs />
+                <DashboardTitle
+                    title="Overview of Your Products"
+                    description="Make updates or add new products as needed to keep your store inventory up-to-date."
+                />
+                <Separator />
+                <DataTable />
             </HydrateClient>
-        </div>
+        </>
     )
 }
