@@ -21,13 +21,76 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
+model Store {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  country     String?
+  address     String?
+  email       String?
+  city        String?
+  zipCode     String?
+  phoneNumber String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  Products    Product[]
+  Sizes       Size[]
+  Colors      Color[]
+}
+
 model Product {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  price      String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  Store      Store    @relation(fields: [storeId], references: [id])
+  storeId    String   @db.ObjectId
+  Category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String   @db.ObjectId
+  Size       Size     @relation(fields: [sizeId], references: [id])
+  sizeId     String   @db.ObjectId
+  Color      Color    @relation(fields: [colorId], references: [id])
+  colorId    String   @db.ObjectId
+  images     Image[]
+}
+
+model Category {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
   name      String
-  // prisma does not support decimal because of rust driver issue, prisma devs suggest to use string in place of decimal
-  price     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Products  Product[]
+}
+
+model Size {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  value     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Products  Product[]
+  Store     Store     @relation(fields: [storeId], references: [id])
+  storeId   String    @db.ObjectId
+}
+
+model Color {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  value     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Products  Product[]
+  Store     Store     @relation(fields: [storeId], references: [id])
+  storeId   String    @db.ObjectId
+}
+
+model Image {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  url       String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Product   Product @relation(fields: [productId], references: [id])
+  productId String  @db.ObjectId
 }
 
 enum Role {
