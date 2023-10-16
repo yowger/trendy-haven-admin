@@ -4,6 +4,8 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import clsx from "clsx"
 
+import useGetStores from "@/hooks/api/useGetStores"
+
 interface NavigationLink {
     href: string
     label: string
@@ -17,6 +19,8 @@ export default function Sidebar({
     navigationLinks,
 }: SidebarProps): JSX.Element {
     const pathname = usePathname()
+    const { data } = useGetStores()
+    console.log("🚀 ~ file: Sidebar.tsx:23 ~ stores:", data)
 
     return (
         <div className="flex flex-col pr-5">

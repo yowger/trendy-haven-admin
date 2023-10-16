@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import type { NextRequest } from "next/server"
 import bcrypt from "bcrypt"
 
 import prisma from "@/lib/prismaDb"
@@ -6,7 +7,7 @@ import { zodCustomError } from "@/lib/zodCustomError"
 import { userRegisterSchema } from "@/schemas/registerSchema"
 import type { UserRegisterInput } from "@/schemas/registerSchema"
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
     try {
         const body: UserRegisterInput = await request.json()
         const parsedBody = userRegisterSchema.parse(body)
@@ -49,9 +50,6 @@ export async function POST(request: Request) {
 
         console.log("Registration error: ", error)
 
-        return NextResponse.json(
-            { message: "Server error" },
-            { status: 500 }
-        )
+        return NextResponse.json({ message: "Server error" }, { status: 500 })
     }
 }

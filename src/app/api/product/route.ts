@@ -7,7 +7,7 @@ import { authOptions } from "@/config/nextAuthOptions"
 import { ProductIdsSchema, ProductInputSchema } from "@/schemas/productSchema"
 import type { ProductInput, ProductIds } from "@/schemas/productSchema"
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
     try {
         const session = await getServerSession(authOptions)
         const { user } = session ?? {}

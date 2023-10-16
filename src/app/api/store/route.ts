@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import type { NextRequest } from "next/server"
 import { getServerSession } from "next-auth"
 
 import prisma from "@/lib/prismaDb"
@@ -7,7 +8,7 @@ import { authOptions } from "@/config/nextAuthOptions"
 import { StoreInputSchema } from "@/schemas/storeSchema"
 import type { StoreInput } from "@/schemas/storeSchema"
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
     try {
         const session = await getServerSession(authOptions)
         const { user } = session ?? {}
@@ -49,5 +50,31 @@ export async function POST(request: Request) {
         console.log("Failed to create store error: ", error)
 
         return NextResponse.json({ message: "Server Error" }, { status: 500 })
+    }
+}
+
+export async function GET(request: NextRequest) {
+    try {
+        const session = await getServerSession(authOptions)
+        const { user } = session ?? {}
+
+        if (!user) {
+            return NextResponse.json(
+                { error: "Account not found" },
+                { status: 404 }
+            )
+        }
+
+        const stores = prisma.store.findMany({
+            where: {
+                userId: user.id,
+            },
+        })
+
+        return NextResponse.json({ stores }, { status: 200 })
+    } catch (error) {
+        console.log("Failed to fetch products: ", error)
+
+        return NextResponse.json({ message: "Server error" }, { status: 500 })
     }
 }
