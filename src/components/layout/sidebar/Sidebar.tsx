@@ -26,7 +26,10 @@ export default function Sidebar({
             <div className="pt-0.5 pl-6">
                 <ul className="space-y-1 flex flex-col w-full">
                     {navigationLinks.map((link, index) => {
-                        const isActivePathName: boolean = pathname === link.href
+                        const isActivePathName: boolean = pathname.startsWith(
+                            link.href
+                        )
+
                         return (
                             <li key={index}>
                                 <Link
