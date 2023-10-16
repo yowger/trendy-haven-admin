@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
 import { Menu } from "lucide-react"

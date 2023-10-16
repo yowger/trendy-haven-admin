@@ -21,9 +21,10 @@ export async function POST(request: Request) {
 
         const body: ProductInput = await request.json()
         const parsedBody = ProductInputSchema.parse(body)
+        const { name, price } = parsedBody
 
         const product = await prisma.product.create({
-            data: { name: parsedBody.name, price: parsedBody.price },
+            data: { name, price, storeId: "123123" },
         })
 
         return NextResponse.json({ product }, { status: 201 })
