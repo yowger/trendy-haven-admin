@@ -1,8 +1,10 @@
+import type { Store } from "@/types/storeTypes"
+
 import AccountMenu from "./AccountMenu"
 import HeaderLeftActions from "./HeaderLeftActions"
 
 interface HeaderProps {
-    stores: []
+    stores: Store[]
 }
 
 export default function Header({ stores }: HeaderProps): JSX.Element {

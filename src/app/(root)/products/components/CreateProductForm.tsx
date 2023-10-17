@@ -24,21 +24,20 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { ProductInputSchema } from "@/schemas/productSchema"
-
+import type { ProductInput } from "@/schemas/productSchema"
 import { handleDecimalsOnValue } from "@/lib/handlePriceChange"
 import { useToast } from "@/components/ui/use-toast"
-import type { Product } from "@/types/productTypes"
 
 export default function CreateProductForm(): JSX.Element {
     const { toast } = useToast()
 
     const { data, mutate, isLoading, isSuccess, error } = useCreateProduct()
 
-    const form = useForm<Product>({
+    const form = useForm<ProductInput>({
         resolver: zodResolver(ProductInputSchema),
     })
 
-    const onSubmit = (data: Product): void => {
+    const onSubmit = (data: ProductInput): void => {
         const { name, price } = data
 
         mutate({ name, price })
@@ -129,8 +128,8 @@ const ControllerPlus = <TInput extends string, TOutput>({
         input: (value: TOutput) => TInput
         output: (value: React.ChangeEvent<HTMLInputElement>) => TOutput
     }
-    name: FieldPath<Product>
-    control: Control<Product>
+    name: FieldPath<ProductInput>
+    control: Control<ProductInput>
     defaultValue?: any
     errors: FieldErrors
 }): JSX.Element => {
