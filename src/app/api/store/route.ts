@@ -65,7 +65,7 @@ export async function GET(request: NextRequest) {
             )
         }
 
-        const stores = prisma.store.findMany({
+        const stores = await prisma.store.findMany({
             where: {
                 userId: user.id,
             },

@@ -34,7 +34,6 @@ const useGetStores = () => {
     return useQuery<StoreResponse, AxiosError>({
         queryKey: [STORE_QUERY_KEY],
         queryFn: () => getStores(),
-        keepPreviousData: true,
     })
 }
 

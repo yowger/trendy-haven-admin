@@ -20,15 +20,13 @@ export default async function Products(): Promise<JSX.Element> {
     const dehydratedState = dehydrate(queryClient)
 
     return (
-        <>
-            <HydrateClient state={dehydratedState}>
-                <DashboardTitle
-                    title="Overview of Your Products"
-                    description="Make updates or add new products as needed to keep your store inventory up-to-date."
-                />
-                <Separator />
-                <DataTable />
-            </HydrateClient>
-        </>
+        <HydrateClient state={dehydratedState}>
+            <DashboardTitle
+                title="Overview of Your Products"
+                description="Make updates or add new products as needed to keep your store inventory up-to-date."
+            />
+            <Separator />
+            <DataTable />
+        </HydrateClient>
     )
 }

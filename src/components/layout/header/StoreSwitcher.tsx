@@ -2,6 +2,7 @@
 
 import { ChevronsUpDown, Store } from "lucide-react"
 
+import { useStore } from "@/hooks/state/useGetStore"
 import { Button } from "@/components/ui/button"
 import {
     Popover,
@@ -9,7 +10,11 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 
-export default function StoreSwitcher(): JSX.Element {
+export default function StoreSwitcher(): JSX.Element | null {
+    const stores = useStore((state) => state.stores)
+    const hasStore: boolean = stores.length > 0
+
+    if (!hasStore) return null
     return (
         <div>
             <Popover>
