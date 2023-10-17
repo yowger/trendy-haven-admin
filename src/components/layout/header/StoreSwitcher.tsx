@@ -14,7 +14,6 @@ export default function StoreSwitcher(): JSX.Element | null {
     const stores = useStore((state) => state.stores)
     const hasStore: boolean = stores.length > 0
 
-    if (!hasStore) return null
     return (
         <div>
             <Popover>

@@ -9,6 +9,7 @@ import Sidebar from "@/components/layout/sidebar/Sidebar"
 import { navigationLinks } from "@/data/navigationLinks"
 
 export default function SidebarSheet(): JSX.Element {
+    console.log("render sheet")
     const pathname = usePathname()
     const [isOpen, setIsOpen] = useState<boolean>(false)
 
