@@ -36,7 +36,6 @@ export default async function RootLayout({
     children,
 }: RootLayoutProps): Promise<JSX.Element> {
     const data = await fetchStores()
-    console.log("🚀 ~ file: layout.tsx:35 ~ data:", data)
 
     return (
         <div className="h-screen w-screen overflow-hidden flex flex-row">
