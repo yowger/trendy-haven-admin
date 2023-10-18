@@ -7,8 +7,8 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 import useRegisterUser from "@/hooks/api/useRegisterUser"
-import { userFormRegisterSchema } from "@/schemas/registerSchema"
-import type { UserFormRegister } from "@/schemas/registerSchema"
+import { loginSchema } from "@/schemas/loginSchema"
+import type { LoginInput } from "@/schemas/loginSchema"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import {
@@ -20,14 +20,14 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 
-export default function RegisterForm(): JSX.Element {
-    const form = useForm<UserFormRegister>({
-        resolver: zodResolver(userFormRegisterSchema),
+export default function LoginForm(): JSX.Element {
+    const form = useForm<LoginInput>({
+        resolver: zodResolver(loginSchema),
     })
 
     const { mutate, isLoading, isSuccess, error } = useRegisterUser()
 
-    const onSubmit = async (data: UserFormRegister) => {
+    const onSubmit = async (data: LoginInput) => {
         const { email, password } = data
 
         mutate({ email, password })
@@ -36,22 +36,6 @@ export default function RegisterForm(): JSX.Element {
     useEffect(() => {
         if (error) {
             const statusResponse: number | undefined = error.response?.status
-
-            if (statusResponse === 409) {
-                const email: string = form.getValues("email")
-                const message: string = `${email} is already taken`
-
-                form.control.setError(
-                    "email",
-                    {
-                        type: "manual",
-                        message,
-                    },
-                    {
-                        shouldFocus: true,
-                    }
-                )
-            }
         }
     }, [error, form])
 
@@ -102,25 +86,11 @@ export default function RegisterForm(): JSX.Element {
                     )}
                 />
 
-                <FormField
-                    control={form.control}
-                    name="confirmPassword"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Confirm Password</FormLabel>
-                            <FormControl>
-                                <Input type="password" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
                 <Button disabled={isLoading} type="submit" className="w-full">
                     {isLoading && (
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     )}
-                    Register
+                    Login
                 </Button>
             </form>
         </Form>

@@ -2,7 +2,7 @@ import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 
-
+import LoginForm from "@/components/forms/LoginForm"
 
 export const metadata: Metadata = {
     title: "Trendy Haven Admin | Login",
@@ -70,7 +70,7 @@ export default function Login(): JSX.Element {
                                 Enter your email below to log in to your account
                             </p>
                         </div>
-                        
+                        <LoginForm />
                         <p className="text-center">
                             {"Don't have an account yet?"}{" "}
                             <Link
