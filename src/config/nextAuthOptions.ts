@@ -50,17 +50,19 @@ export const authOptions: AuthOptions = {
                     throw new Error("Incorrect password")
                 }
 
-                const store: { id: string } | null =
-                    await prisma.store.findFirst({
-                        where: {
-                            userId: user.id,
-                        },
-                        select: {
-                            id: true,
-                        },
-                    })
+                // const store: { id: string } | null =
+                //     await prisma.store.findFirst({
+                //         where: {
+                //             userId: user.id,
+                //         },
+                //         select: {
+                //             id: true,
+                //         },
+                //     })
 
-                const storeId: string | null = store?.id ?? null
+                // const storeId: string | null = store?.id ?? null
+
+                const storeId = null
 
                 const { password: _password, ...restOfUser } = user
 
