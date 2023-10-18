@@ -61,6 +61,10 @@ export const authOptions: AuthOptions = {
                     })
 
                 const storeId = store?.id
+                console.log(
+                    "🚀 ~ file: nextAuthOptions.ts:64 ~ authorize ~ storeId:",
+                    storeId
+                )
 
                 const { password: _password, ...restOfUser } = user
 
@@ -84,4 +88,8 @@ export const authOptions: AuthOptions = {
         },
     },
     secret: process.env.NEXTAUTH_SECRET,
+    pages: {
+        signIn: "/login",
+        error: "/login",
+    },
 }

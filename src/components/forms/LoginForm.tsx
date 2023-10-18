@@ -1,6 +1,7 @@
 "use client"
 
-import { useEffect } from "react"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { signIn } from "next-auth/react"
 import { Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
@@ -20,6 +21,10 @@ import {
 } from "@/components/ui/form"
 
 export default function LoginForm(): JSX.Element {
+    const [serverError, setServerError] = useState<null | string>(null)
+
+    const router = useRouter()
+
     const form = useForm<LoginInput>({
         resolver: zodResolver(loginSchema),
     })
@@ -29,12 +34,50 @@ export default function LoginForm(): JSX.Element {
     const onSubmit = async (data: LoginInput) => {
         const { email, password } = data
 
-        signIn("credentials", {
+        const result = await signIn("credentials", {
             email,
             password,
-            redirect: true,
-            callbackUrl: "/",
+            redirect: false,
         })
+        console.log("🚀 ~ file: LoginForm.tsx:37 ~ onSubmit ~ result:", result)
+
+        const error = result?.error
+        const ok = result?.ok
+
+        if (error === "Account not found") {
+            const email: string = form.getValues("email")
+            const message: string = `${email} does not belong to any registered account.`
+
+            form.control.setError(
+                "email",
+                {
+                    type: "manual",
+                    message,
+                },
+                {
+                    shouldFocus: true,
+                }
+            )
+        } else if (error === "Incorrect password") {
+            const message: string = `Incorrect password. Please try again.`
+
+            form.control.setError(
+                "password",
+                {
+                    type: "manual",
+                    message,
+                },
+                {
+                    shouldFocus: true,
+                }
+            )
+        } else if (error && !ok) {
+            setServerError(
+                "Oops! Something went wrong on our end. Please try again later."
+            )
+        } else if (ok) {
+            router.push("/store")
+        }
     }
 
     return (
@@ -67,6 +110,8 @@ export default function LoginForm(): JSX.Element {
                         </FormItem>
                     )}
                 />
+
+                {serverError && <FormMessage>{serverError}</FormMessage>}
 
                 <Button
                     disabled={isFormSubmitting}

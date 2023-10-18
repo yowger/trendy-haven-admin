@@ -18,7 +18,7 @@ const allowedPathsRegex =
 export default async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl
 
-    console.log("current pathname: ", pathname)
+    // console.log("current pathname: ", pathname)
 
     if (pathname === "/") {
         return NextResponse.redirect(new URL("/store", request.url))
