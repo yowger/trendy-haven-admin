@@ -1,7 +1,6 @@
 "use client"
 
-import { useSession } from "next-auth/react"
-
+import { signOut, useSession } from "next-auth/react"
 import { LogOut, Settings, User } from "lucide-react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -15,9 +14,13 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-export default function AccountMenu() {
+export default function AccountMenu(): JSX.Element {
     const { data: session, status } = useSession()
     const { user } = session ?? {}
+
+    const handleSignOut = async () => {
+        await signOut({ callbackUrl: "http://localhost:3000/login" })
+    }
 
     return (
         <div>
@@ -42,7 +45,7 @@ export default function AccountMenu() {
                         </DropdownMenuItem>
                     </DropdownMenuGroup>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleSignOut}>
                         <LogOut className="mr-2 h-4 w-4" />
                         <span>Log out</span>
                     </DropdownMenuItem>
