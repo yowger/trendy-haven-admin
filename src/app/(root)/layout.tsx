@@ -40,10 +40,10 @@ export default async function RootLayout({
     children,
 }: RootLayoutProps): Promise<JSX.Element> {
     const session = await getServerSession(authOptions)
-    const { storeId } = session?.user ?? {}
+    // const { storeId } = session?.user ?? {}
 
     let stores: Store[] = []
-    console.log("🚀 ~ file: layout.tsx:46 ~ Store:", stores)
+    // console.log("🚀 ~ file: layout.tsx:46 ~ Store:", stores)
 
     // if (!storeId) {
     //     const result = await fetchStores()
