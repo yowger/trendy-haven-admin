@@ -13,13 +13,17 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useRouter } from "next/navigation"
 
 export default function AccountMenu(): JSX.Element {
+    const router = useRouter()
     const { data: session, status } = useSession()
     const { user } = session ?? {}
 
-    const handleSignOut = async () => {
-        await signOut({ callbackUrl: "http://localhost:3000/login" })
+    const handleSignOut = (): void => {
+        signOut({ redirect: false }).then(() => {
+            router.push("/login")
+        })
     }
 
     return (
