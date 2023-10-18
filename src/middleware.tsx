@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
-import { withAuth } from "next-auth/middleware"
 import { getToken } from "next-auth/jwt"
 
 const allowedOrigins: string[] =
@@ -17,8 +16,6 @@ const allowedPathsRegex =
 
 export default async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl
-
-    // console.log("current pathname: ", pathname)
 
     if (pathname === "/") {
         return NextResponse.redirect(new URL("/store", request.url))
