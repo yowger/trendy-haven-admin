@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { signIn } from "next-auth/react"
 import { Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/form"
 
 export default function RegisterForm(): JSX.Element {
+    const [serverError, setServerError] = useState<null | string>(null)
+
     const form = useForm<UserFormRegister>({
         resolver: zodResolver(userFormRegisterSchema),
     })
@@ -50,6 +52,10 @@ export default function RegisterForm(): JSX.Element {
                     {
                         shouldFocus: true,
                     }
+                )
+            } else {
+                setServerError(
+                    "Oops! Something went wrong on our end. Please try again later."
                 )
             }
         }
@@ -115,6 +121,8 @@ export default function RegisterForm(): JSX.Element {
                         </FormItem>
                     )}
                 />
+
+                {serverError && <FormMessage>{serverError}</FormMessage>}
 
                 <Button disabled={isLoading} type="submit" className="w-full">
                     {isLoading && (
