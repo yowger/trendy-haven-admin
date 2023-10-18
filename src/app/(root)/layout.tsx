@@ -7,6 +7,7 @@ import Sidebar from "@/components/layout/sidebar/Sidebar"
 
 import { navigationLinks } from "@/data/navigationLinks"
 import { authOptions } from "@/config/nextAuthOptions"
+import { baseUrl } from "@/config/baseUrl"
 import type { Store } from "@/types/storeTypes"
 
 interface RootLayoutProps {
@@ -18,7 +19,7 @@ interface fetchStoresProps {
 }
 
 async function fetchStores(): Promise<fetchStoresProps> {
-    const response = await fetch("http://localhost:3000/api/store", {
+    const response = await fetch(`${baseUrl}/api/store`, {
         method: "GET",
         headers: headers(),
         next: {

@@ -1,10 +1,7 @@
 import axios from "axios"
 import type { AxiosInstance } from "axios"
 
-const baseUrl: string =
-    process.env.NODE_ENV === "development"
-        ? "http://localhost:3000"
-        : process.env.NEXT_PUBLIC_API_BASE_URL!
+import { baseUrl } from "@/config/baseUrl"
 
 const axiosPublic: AxiosInstance = axios.create({
     baseURL: baseUrl,
