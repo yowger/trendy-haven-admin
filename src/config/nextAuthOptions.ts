@@ -31,7 +31,7 @@ export const authOptions: AuthOptions = {
                         email: true,
                         role: true,
                         password: true,
-                        image: true,
+                        picture: true,
                     },
                 })
 
