@@ -39,7 +39,6 @@ export default function LoginForm(): JSX.Element {
             password,
             redirect: false,
         })
-        console.log("🚀 ~ file: LoginForm.tsx:37 ~ onSubmit ~ result:", result)
 
         const error = result?.error
         const ok = result?.ok

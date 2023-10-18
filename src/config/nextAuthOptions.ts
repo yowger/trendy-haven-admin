@@ -60,11 +60,7 @@ export const authOptions: AuthOptions = {
                         },
                     })
 
-                const storeId = store?.id
-                console.log(
-                    "🚀 ~ file: nextAuthOptions.ts:64 ~ authorize ~ storeId:",
-                    storeId
-                )
+                const storeId: string | null = store?.id ?? null
 
                 const { password: _password, ...restOfUser } = user
 
