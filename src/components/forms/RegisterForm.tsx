@@ -72,7 +72,7 @@ export default function RegisterForm(): JSX.Element {
                 email,
                 password,
                 redirect: true,
-                callbackUrl: "/",
+                callbackUrl: "/store",
             })
         }
     }, [isSuccess, form])
