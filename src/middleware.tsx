@@ -11,8 +11,8 @@ const allowedOrigins: string[] =
           ]
         : ["https://trendy-haven-admin.vercel.app/"]
 
-const allowedPathsRegex =
-    /^(\/(?!api|_next\/static|_next\/image|favicon\.ico|register|login).*)$/
+// const allowedPathsRegex =
+//     /^(\/(?!api|_next\/static|_next\/image|favicon\.ico|register|login).*)$/
 
 export default async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl
@@ -21,16 +21,16 @@ export default async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL("/store", request.url))
     }
 
-    if (allowedPathsRegex.test(pathname)) {
-        const token = await getToken({
-            req: request,
-            secret: process.env.NEXTAUTH_SECRET,
-        })
+    // if (allowedPathsRegex.test(pathname)) {
+    //     const token = await getToken({
+    //         req: request,
+    //         secret: process.env.NEXTAUTH_SECRET,
+    //     })
 
-        if (!token) {
-            return NextResponse.redirect(new URL("/login", request.url))
-        }
-    }
+    //     if (!token) {
+    //         return NextResponse.redirect(new URL("/login", request.url))
+    //     }
+    // }
 
     if (pathname.startsWith("/api")) {
         const origin = request.headers.get("origin")
