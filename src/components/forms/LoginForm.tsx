@@ -71,6 +71,8 @@ export default function LoginForm(): JSX.Element {
                 }
             )
         } else if (error && !ok) {
+            console.log("login error: ", error)
+            
             setServerError(
                 "Oops! Something went wrong on our end. Please try again later."
             )
