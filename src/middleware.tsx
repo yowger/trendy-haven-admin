@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
+import { withAuth } from "next-auth/middleware"
+import { getToken } from "next-auth/jwt"
 
 const allowedOrigins: string[] =
     process.env.NODE_ENV === "development"
@@ -10,10 +12,17 @@ const allowedOrigins: string[] =
           ]
         : ["https://trendy-haven-admin.vercel.app/"]
 
-export function middleware(
-    request: NextRequest
-): NextResponse<unknown> | undefined {
+const allowedPathsRegex =
+    /^(\/(?!api|_next\/static|_next\/image|favicon\.ico|register|login).*)$/
+
+export default withAuth(async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl
+
+    console.log("current pathname: ", pathname)
+
+    if (pathname === "/") {
+        return NextResponse.redirect(new URL("/store", request.url))
+    }
 
     if (pathname.startsWith("/api")) {
         const origin = request.headers.get("origin")
@@ -28,6 +37,18 @@ export function middleware(
             })
         }
 
+        if (!pathname.includes("/api/auth")) {
+        }
+
         return NextResponse.next()
     }
-}
+
+    if (allowedPathsRegex.test(pathname)) {
+        const token = await getToken({
+            req: request,
+            secret: process.env.NEXTAUTH_SECRET,
+        })
+
+        console.log("token: ", token)
+    }
+})

@@ -1,9 +1,4 @@
-interface NavigationLink {
-    href: string
-    label: string
-}
-
-export const navigationLinks: NavigationLink[] = [
+export const navigationLinks = [
     // { href: "/", label: "Dashboard" },
     { href: "/store", label: "Store" },
     { href: "/products", label: "Products" },
