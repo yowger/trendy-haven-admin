@@ -15,13 +15,26 @@ const allowedOrigins: string[] =
 const allowedPathsRegex =
     /^(\/(?!api|_next\/static|_next\/image|favicon\.ico|register|login).*)$/
 
-export default withAuth(async function middleware(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl
 
     console.log("current pathname: ", pathname)
 
     if (pathname === "/") {
         return NextResponse.redirect(new URL("/store", request.url))
+    }
+
+    if (allowedPathsRegex.test(pathname)) {
+        const token = await getToken({
+            req: request,
+            secret: process.env.NEXTAUTH_SECRET,
+        })
+
+        console.log("token: ", token)
+
+        if (!token) {
+            return NextResponse.redirect(new URL("/login", request.url))
+        }
     }
 
     if (pathname.startsWith("/api")) {
@@ -42,13 +55,4 @@ export default withAuth(async function middleware(request: NextRequest) {
 
         return NextResponse.next()
     }
-
-    if (allowedPathsRegex.test(pathname)) {
-        const token = await getToken({
-            req: request,
-            secret: process.env.NEXTAUTH_SECRET,
-        })
-
-        console.log("token: ", token)
-    }
-})
+}
