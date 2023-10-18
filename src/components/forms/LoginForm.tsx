@@ -6,7 +6,6 @@ import { Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-import useRegisterUser from "@/hooks/api/useRegisterUser"
 import { loginSchema } from "@/schemas/loginSchema"
 import type { LoginInput } from "@/schemas/loginSchema"
 import { Input } from "@/components/ui/input"
@@ -25,35 +24,18 @@ export default function LoginForm(): JSX.Element {
         resolver: zodResolver(loginSchema),
     })
 
-    const { mutate, isLoading, isSuccess, error } = useRegisterUser()
+    const isFormSubmitting = form.formState.isSubmitting
 
     const onSubmit = async (data: LoginInput) => {
         const { email, password } = data
 
-        mutate({ email, password })
+        signIn("credentials", {
+            email,
+            password,
+            redirect: true,
+            callbackUrl: "/",
+        })
     }
-
-    useEffect(() => {
-        if (error) {
-            const statusResponse: number | undefined = error.response?.status
-        }
-    }, [error, form])
-
-    useEffect(() => {
-        if (isSuccess) {
-            const [email, password]: [string, string] = form.getValues([
-                "email",
-                "password",
-            ])
-
-            signIn("credentials", {
-                email,
-                password,
-                redirect: true,
-                callbackUrl: "/",
-            })
-        }
-    }, [isSuccess, form])
 
     return (
         <Form {...form}>
@@ -86,8 +68,12 @@ export default function LoginForm(): JSX.Element {
                     )}
                 />
 
-                <Button disabled={isLoading} type="submit" className="w-full">
-                    {isLoading && (
+                <Button
+                    disabled={isFormSubmitting}
+                    type="submit"
+                    className="w-full"
+                >
+                    {isFormSubmitting && (
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     )}
                     Login
