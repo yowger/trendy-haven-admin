@@ -43,15 +43,16 @@ export default async function RootLayout({
     const { storeId } = session?.user ?? {}
 
     let stores: Store[] = []
+    console.log("🚀 ~ file: layout.tsx:46 ~ Store:", stores)
 
-    if (!storeId) {
-        const result = await fetchStores()
-        stores = result.stores
+    // if (!storeId) {
+    //     const result = await fetchStores()
+    //     stores = result.stores
 
-        if (stores.length === 0) {
-            redirect("/store-setup")
-        }
-    }
+    //     if (stores.length === 0) {
+    //         redirect("/store-setup")
+    //     }
+    // }
 
     return (
         <div className="h-screen w-screen overflow-hidden flex flex-row">
