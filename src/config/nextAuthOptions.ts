@@ -1,5 +1,5 @@
-import type { AuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
+import type { AuthOptions } from "next-auth"
 import bcrypt from "bcrypt"
 
 import prisma from "@/lib/prismaDb"
