@@ -2,23 +2,23 @@ import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 
-import RegisterForm from "@/components/forms/RegisterForm"
+
 
 export const metadata: Metadata = {
-    title: "Trendy Haven Admin | Register",
+    title: "Trendy Haven Admin | Login",
     description:
-        "Create an account on Trendy Haven to access exclusive features and personalized content.",
+        "Log in to your Trendy Haven Admin account to access exclusive features, manage your store, and streamline your business operations with ease",
     keywords: [
         "Trendy Haven",
-        "user registration",
-        "sign up",
-        "account creation",
-        "register account",
+        "user login",
+        "sign in",
+        "account login",
+        "login account",
     ],
     authors: [{ name: "Roger Pantil", url: "https://github.com/yowger" }],
 }
 
-export default function Register(): JSX.Element {
+export default function Login(): JSX.Element {
     return (
         <div className="">
             <div className="md:hidden">
@@ -51,11 +51,10 @@ export default function Register(): JSX.Element {
                     <div className="relative z-20 mt-auto">
                         <blockquote className="space-y-2">
                             <p className="text-lg">
-                                &ldquo;Revolutionizing my workflow, Trendy Haven
-                                Admin has spared me endless hours of labor. It
-                                empowers me to craft captivating designs
-                                swiftly, allowing me to serve my clients with
-                                unmatched efficiency and creativity.&rdquo;
+                                &ldquo;Log in to your Trendy Haven Admin account
+                                to access exclusive features, manage your store,
+                                and streamline your business operations with
+                                ease.&rdquo;
                             </p>
                             <footer className="text-sm">Sofia Davis</footer>
                         </blockquote>
@@ -65,20 +64,20 @@ export default function Register(): JSX.Element {
                     <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
                         <div className="flex flex-col space-y-2 text-center">
                             <h1 className="text-2xl font-semibold tracking-tight">
-                                Create an account
+                                Login
                             </h1>
                             <p className="text-sm text-muted-foreground">
-                                Enter your email below to create your account
+                                Enter your email below to log in to your account
                             </p>
                         </div>
-                        <RegisterForm />
+                        
                         <p className="text-center">
-                            Already have an account{" "}
+                            {"Don't have an account yet?"}{" "}
                             <Link
-                                href="/login"
+                                href="/register"
                                 className="text-blue-800 hover:underline"
                             >
-                                Sign in
+                                Create an account
                             </Link>
                         </p>
                     </div>

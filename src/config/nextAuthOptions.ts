@@ -41,7 +41,7 @@ export const authOptions: AuthOptions = {
                     throw new Error("Account not found")
                 }
 
-                const isValidPassword = await bcrypt.compare(
+                const isValidPassword: boolean = await bcrypt.compare(
                     password,
                     userPassword
                 )
@@ -50,9 +50,21 @@ export const authOptions: AuthOptions = {
                     throw new Error("Incorrect password")
                 }
 
+                const store: { id: string } | null =
+                    await prisma.store.findFirst({
+                        where: {
+                            userId: user.id,
+                        },
+                        select: {
+                            id: true,
+                        },
+                    })
+
+                const storeId = store?.id
+
                 const { password: _password, ...restOfUser } = user
 
-                return restOfUser
+                return { ...restOfUser, storeId }
             },
         }),
     ],
