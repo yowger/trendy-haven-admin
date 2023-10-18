@@ -11,19 +11,8 @@ interface User {
     storeId?: string | null
 }
 
-interface JwtClaims {
-    sub: string
-    iat: number
-    exp: number
-    jti: string
-}
-
 declare module "next-auth" {
     interface Session {
         user: User
     }
-}
-
-declare module "next-auth/jwt" {
-    interface JWT extends User, JwtClaims {}
 }
