@@ -9,6 +9,11 @@ import { allowedOrigins } from "@/config/allowedOrigins"
 
 export default async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl
+
+    if (pathname === "/") {
+        return NextResponse.redirect(new URL("/store", request.url))
+    }
+
     // if (allowedPathsRegex.test(pathname)) {
     //     const token = await getToken({
     //         req: request,
@@ -17,9 +22,7 @@ export default async function middleware(request: NextRequest) {
     //     if (!token) {
     //         return NextResponse.redirect(new URL("/login", request.url))
     //     }
-    //     if (pathname === "/") {
-    //         return NextResponse.redirect(new URL("/store", request.url))
-    //     }
+    //
     // }
 
     if (pathname.startsWith("/api")) {
