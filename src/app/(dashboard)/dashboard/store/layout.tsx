@@ -7,11 +7,11 @@ type RootLayoutProps = {
 const sidebarNavItems = [
     {
         title: "Overview",
-        href: "/store",
+        href: "/dashboard/store",
     },
     {
         title: "Create store",
-        href: "/store/create",
+        href: "/dashboard/store/create",
     },
 ]
 

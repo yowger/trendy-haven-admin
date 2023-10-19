@@ -77,7 +77,7 @@ export default function LoginForm(): JSX.Element {
                 "Oops! Something went wrong on our end. Please try again later."
             )
         } else if (ok) {
-            router.push("/store")
+            router.push("/dashboard/store")
         }
     }
 

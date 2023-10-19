@@ -7,6 +7,17 @@ import { allowedOrigins } from "@/config/allowedOrigins"
 export default async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl
 
+    if (pathname.startsWith("/dashboard") || pathname === "/store-setup") {
+        const token = await getToken({
+            req: request,
+            secret: process.env.NEXTAUTH_SECRET,
+        })
+
+        if (!token) {
+            return NextResponse.redirect(new URL("/login", request.url))
+        }
+    }
+
     if (pathname === "/register" || pathname === "/login") {
         const token = await getToken({
             req: request,
@@ -14,12 +25,14 @@ export default async function middleware(request: NextRequest) {
         })
 
         if (token) {
-            return NextResponse.redirect(new URL("/store", request.url))
+            return NextResponse.redirect(
+                new URL("/dashboard/store", request.url)
+            )
         }
     }
 
-    if (pathname === "/") {
-        return NextResponse.redirect(new URL("/store", request.url))
+    if (pathname === "/" || pathname === "/dashboard") {
+        return NextResponse.redirect(new URL("/dashboard/store", request.url))
     }
 
     if (pathname.startsWith("/api")) {

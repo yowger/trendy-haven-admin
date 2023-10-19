@@ -1,6 +1,5 @@
 import { getServerSession } from "next-auth"
 import { headers } from "next/headers"
-import { redirect } from "next/navigation"
 
 import Header from "@/components/layout/header/Header"
 import Sidebar from "@/components/layout/sidebar/Sidebar"
@@ -40,10 +39,6 @@ export default async function RootLayout({
     children,
 }: RootLayoutProps): Promise<JSX.Element> {
     const session = await getServerSession(authOptions)
-
-    if (!session) {
-        redirect("/login")
-    }
 
     // const { storeId } = session?.user ?? {}
 

@@ -1,10 +1,9 @@
 export const navigationLinks = [
-    // { href: "/", label: "Dashboard" },
-    { href: "/store", label: "Store" },
-    { href: "/products", label: "Products" },
-    { href: "/categories", label: "Categories" },
-    { href: "/sizes", label: "Sizes" },
-    { href: "/colors", label: "Colors" },
-    { href: "/orders", label: "Orders" },
-    { href: "/settings", label: "Settings" },
+    { href: "/dashboard/store", label: "Store" },
+    { href: "/dashboard/products", label: "Products" },
+    { href: "/dashboard/categories", label: "Categories" },
+    { href: "/dashboard/sizes", label: "Sizes" },
+    { href: "/dashboard/colors", label: "Colors" },
+    { href: "/dashboard/orders", label: "Orders" },
+    { href: "/dashboard/settings", label: "Settings" },
 ]

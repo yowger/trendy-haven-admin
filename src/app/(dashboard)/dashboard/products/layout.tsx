@@ -3,11 +3,11 @@ import Navbar from "@/components/dashboard/Navbar"
 const sidebarNavItems = [
     {
         title: "Overview",
-        href: "/products",
+        href: "/dashboard/products",
     },
     {
         title: "Create Product",
-        href: "/products/create",
+        href: "/dashboard/products/create",
     },
 ]
 
