@@ -1,6 +1,7 @@
 "use client"
 
 import { signOut, useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
 import { LogOut, Settings, User } from "lucide-react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -13,7 +14,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useRouter } from "next/navigation"
 
 export default function AccountMenu(): JSX.Element {
     const router = useRouter()

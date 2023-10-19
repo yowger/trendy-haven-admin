@@ -177,7 +177,7 @@ export default function CreateStoreForm(): JSX.Element {
 
                 {error && (
                     <FormMessage>
-                        Failed to add product, please check your internet
+                        Failed to create store, please check your internet
                         connection and try again
                     </FormMessage>
                 )}
@@ -189,7 +189,7 @@ export default function CreateStoreForm(): JSX.Element {
                     {isLoading && (
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     )}
-                    Add Product
+                    Create store
                 </Button>
             </form>
         </Form>
