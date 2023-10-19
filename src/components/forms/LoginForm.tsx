@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/form"
 
 export default function LoginForm(): JSX.Element {
+    const [trueSuccess, setTrueSuccess] = useState(false)
+
     const [serverError, setServerError] = useState<null | string>(null)
 
     const router = useRouter()
@@ -72,11 +74,13 @@ export default function LoginForm(): JSX.Element {
             )
         } else if (error && !ok) {
             console.log("login error: ", error)
-            
+
             setServerError(
                 "Oops! Something went wrong on our end. Please try again later."
             )
         } else if (ok) {
+            setTrueSuccess(true)
+
             router.push("/dashboard/store")
         }
     }
@@ -115,7 +119,7 @@ export default function LoginForm(): JSX.Element {
                 {serverError && <FormMessage>{serverError}</FormMessage>}
 
                 <Button
-                    disabled={isFormSubmitting}
+                    disabled={isFormSubmitting || trueSuccess}
                     type="submit"
                     className="w-full"
                 >
