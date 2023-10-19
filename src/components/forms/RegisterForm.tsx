@@ -124,7 +124,11 @@ export default function RegisterForm(): JSX.Element {
 
                 {serverError && <FormMessage>{serverError}</FormMessage>}
 
-                <Button disabled={isLoading} type="submit" className="w-full">
+                <Button
+                    disabled={isLoading || isSuccess}
+                    type="submit"
+                    className="w-full"
+                >
                     {isLoading && (
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     )}
