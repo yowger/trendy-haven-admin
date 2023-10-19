@@ -40,6 +40,11 @@ export default async function RootLayout({
     children,
 }: RootLayoutProps): Promise<JSX.Element> {
     const session = await getServerSession(authOptions)
+
+    if (!session) {
+        redirect("/login")
+    }
+    console.log("🚀 ~ file: layout.tsx:43 ~ session:", session)
     // const { storeId } = session?.user ?? {}
 
     let stores: Store[] = []
