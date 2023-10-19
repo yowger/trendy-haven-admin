@@ -37,7 +37,7 @@ export default function LoginForm(): JSX.Element {
         const { email, password } = data
 
         const result = await signIn("credentials", {
-            email,
+            email: email.toLowerCase(),
             password,
             redirect: false,
         })

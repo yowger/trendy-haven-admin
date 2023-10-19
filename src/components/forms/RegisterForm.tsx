@@ -32,7 +32,7 @@ export default function RegisterForm(): JSX.Element {
     const onSubmit = async (data: UserFormRegister) => {
         const { email, password } = data
 
-        mutate({ email, password })
+        mutate({ email: email.toLowerCase(), password })
     }
 
     useEffect(() => {
