@@ -44,7 +44,7 @@ export default async function RootLayout({
     if (!session) {
         redirect("/login")
     }
-    console.log("🚀 ~ file: layout.tsx:43 ~ session:", session)
+
     // const { storeId } = session?.user ?? {}
 
     let stores: Store[] = []
