@@ -2,7 +2,7 @@
 
 import { ChevronsUpDown, Store } from "lucide-react"
 
-import { useStore } from "@/hooks/state/useGetStore"
+import { useSession } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import {
     Popover,
@@ -11,8 +11,12 @@ import {
 } from "@/components/ui/popover"
 
 export default function StoreSwitcher(): JSX.Element | null {
-    const stores = useStore((state) => state.stores)
-    const hasStore: boolean = stores.length > 0
+    const { data: session } = useSession()
+    const { id: userId, activeStore } = session?.user ?? {}
+
+    if (!activeStore?.name) {
+        return null
+    }
 
     return (
         <div>
@@ -25,7 +29,7 @@ export default function StoreSwitcher(): JSX.Element | null {
                     >
                         <Store className="mr-2.5 h-4 w-4 shrink-0" />
                         <span className="whitespace-nowrap truncate">
-                            Shoppee
+                            {activeStore.name}
                         </span>
                         <ChevronsUpDown className="ml-4 h-4 w-4 shrink-0 opacity-50" />
                     </Button>

@@ -75,10 +75,19 @@ export const authOptions: AuthOptions = {
         maxAge: 30 * 24 * 60 * 60,
     },
     callbacks: {
-        async jwt({ user, token }) {
+        async jwt({ user, token, session, trigger }) {
+            if (trigger === "update") {
+                const { id, name } = session
+
+                token.activeStore = {
+                    id,
+                    name,
+                }
+            }
+
             return { ...user, ...token }
         },
-        async session({ session, token }) {
+        async session({ session, token, trigger }) {
             const { iat, exp, jti, sub, ...userWithoutClaims } = token as any
             session.user = userWithoutClaims
 

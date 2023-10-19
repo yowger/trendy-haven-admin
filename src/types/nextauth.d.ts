@@ -8,7 +8,10 @@ interface User {
     email: string
     picture?: string | null
     role: Role
-    storeId?: string | null
+    activeStore?: {
+        id: string
+        name: string
+    } | null
 }
 
 interface JwtClaims {
@@ -25,16 +28,5 @@ declare module "next-auth" {
 }
 
 declare module "next-auth/jwt" {
-    interface JWT {
-        id: string
-        name?: string | null
-        email: string
-        picture?: string | null
-        role: Role
-        storeId?: string
-        sub: string
-        iat: number
-        exp: number
-        jti: string
-    }
+    interface JWT extends User, JwtClaims {}
 }
