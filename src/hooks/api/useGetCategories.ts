@@ -17,11 +17,11 @@ export const getCategories = async (): Promise<categoriesResponse> => {
     return response.data
 }
 
-const useGetStores = () => {
+const useGetCategories = () => {
     return useQuery<categoriesResponse, AxiosError>({
         queryKey: [CATEGORY_QUERY_KEY],
         queryFn: () => getCategories(),
     })
 }
 
-export default useGetStores
+export default useGetCategories
