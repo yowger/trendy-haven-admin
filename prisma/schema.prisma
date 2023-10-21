@@ -72,7 +72,6 @@ model Size {
 model Color {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
   name       String
-  value      String
   Products   Product[] @relation(fields: [productIds], references: [id])
   productIds String[]  @db.ObjectId
 }

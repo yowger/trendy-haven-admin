@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
         const { name, price } = parsedBody
 
         const product = await prisma.product.create({
-            data: { name, price, storeId: "123123" },
+            data: { name, price, storeId: "123123", categoryId: "test" },
         })
 
         return NextResponse.json({ product }, { status: 201 })
