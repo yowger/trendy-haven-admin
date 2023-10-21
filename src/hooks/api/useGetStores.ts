@@ -1,25 +1,12 @@
 import { useQuery } from "@tanstack/react-query"
+import type { Store } from "@prisma/client"
 import type { AxiosError, AxiosResponse } from "axios"
 
 import axiosPublic from "@/lib/axios"
 import { STORE_QUERY_KEY } from "@/constants/queryKeys"
 
-interface Store {
-    id: string
-    name: string
-    country: string | null
-    address: string | null
-    email: string | null
-    city: string | null
-    zipCode: string | null
-    phoneNumber: string | null
-    createdAt: Date
-    updatedAt: Date
-    userId: string
-}
-
 interface StoreResponse {
-    stores: Store[]
+    stores: Store
 }
 
 export const getStores = async (): Promise<StoreResponse> => {

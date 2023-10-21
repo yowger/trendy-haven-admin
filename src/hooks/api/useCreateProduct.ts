@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import type { Product } from "@prisma/client"
 import type { AxiosError, AxiosResponse } from "axios"
 
 import axiosPublic from "@/lib/axios"
 import { PRODUCT_QUERY_KEY } from "@/constants/queryKeys"
 import type { ProductInput } from "@/schemas/productSchema"
-import type { Product } from "@/types/productTypes"
 
 interface CreatedProductResponse {
     product: Product

@@ -1,20 +1,12 @@
 import { useMutation } from "@tanstack/react-query"
+import type { User } from "@prisma/client"
 import type { AxiosError, AxiosResponse } from "axios"
 
 import axiosPublic from "@/lib/axios"
 import type { UserRegisterInput } from "@/schemas/registerSchema"
-import type { UserRole } from "@/types/productTypes"
 
 interface UserRegisterResponse {
-    user: {
-        id: string
-        name: string | null
-        email: string
-        role: UserRole
-        image: string | null
-        createdAt: Date
-        updatedAt: Date
-    }
+    user: Omit<User, "password">
 }
 
 const registerUser = async (
