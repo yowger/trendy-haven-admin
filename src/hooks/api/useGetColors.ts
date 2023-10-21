@@ -11,7 +11,7 @@ interface colorsResponse {
 
 export const getColors = async (): Promise<colorsResponse> => {
     const response: AxiosResponse<colorsResponse> = await axiosPublic.get(
-        `api/size`
+        `api/color`
     )
 
     return response.data
