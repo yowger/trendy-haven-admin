@@ -48,11 +48,8 @@ model Product {
   storeId    String   @db.ObjectId
   Category   Category @relation(fields: [categoryId], references: [id])
   categoryId String   @db.ObjectId
-  Colors     Color[]  @relation(fields: [sizeIds], references: [id])
-  colorIds   String[] @db.ObjectId
-  Sizes      Size[]   @relation(fields: [sizeIds], references: [id])
-  sizeIds    String[] @db.ObjectId
   images     Image[]
+  Stock      Stock[]
 }
 
 model Category {
@@ -62,18 +59,16 @@ model Category {
 }
 
 model Size {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  name       String
-  value      String
-  Products   Product[] @relation(fields: [productIds], references: [id])
-  productIds String[]  @db.ObjectId
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  value String
+  Stock Stock[]
 }
 
 model Color {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  name       String
-  Products   Product[] @relation(fields: [productIds], references: [id])
-  productIds String[]  @db.ObjectId
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  Stock Stock[]
 }
 
 model Image {
@@ -83,6 +78,17 @@ model Image {
   updatedAt  DateTime @updatedAt
   Product    Product  @relation(fields: [productIds], references: [id])
   productIds String   @db.ObjectId
+}
+
+model Stock {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  quantity  Int
+  Product   Product @relation(fields: [productId], references: [id])
+  productId String  @db.ObjectId
+  Size      Size    @relation(fields: [sizeId], references: [id])
+  sizeId    String  @db.ObjectId
+  Color     Color   @relation(fields: [colorId], references: [id])
+  colorId   String  @db.ObjectId
 }
 
 enum Role {
