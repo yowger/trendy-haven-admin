@@ -60,8 +60,6 @@ model Product {
 model Category {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
   name      String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
   Products  Product[]
 }
 
@@ -69,8 +67,6 @@ model Size {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   value     String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
   Products  Product[]
   Store     Store     @relation(fields: [storeId], references: [id])
   storeId   String    @db.ObjectId
@@ -80,8 +76,6 @@ model Color {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   value     String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
   Products  Product[]
   Store     Store     @relation(fields: [storeId], references: [id])
   storeId   String    @db.ObjectId
