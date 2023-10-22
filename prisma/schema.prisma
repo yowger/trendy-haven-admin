@@ -33,7 +33,7 @@ model Store {
   phoneNumber String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  User        User      @relation(fields: [userId], references: [id])
+  User        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String    @db.ObjectId
   Products    Product[]
 }
@@ -41,10 +41,9 @@ model Store {
 model Product {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   name       String
-  price      String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  Store      Store    @relation(fields: [storeId], references: [id])
+  Store      Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
   storeId    String   @db.ObjectId
   Category   Category @relation(fields: [categoryId], references: [id])
   categoryId String   @db.ObjectId
@@ -76,14 +75,15 @@ model Image {
   url        String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  Product    Product  @relation(fields: [productIds], references: [id])
+  Product    Product  @relation(fields: [productIds], references: [id], onDelete: Cascade)
   productIds String   @db.ObjectId
 }
 
 model Stock {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
   quantity  Int
-  Product   Product @relation(fields: [productId], references: [id])
+  price     String
+  Product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String  @db.ObjectId
   Size      Size    @relation(fields: [sizeId], references: [id])
   sizeId    String  @db.ObjectId
