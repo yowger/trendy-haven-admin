@@ -1,10 +1,10 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
+import { Product } from "@prisma/client"
 import { format } from "date-fns"
 
 import { Checkbox } from "@/components/ui/checkbox"
-import type { Product } from "@/types/productTypes"
 
 export const columns: ColumnDef<Product>[] = [
     {
