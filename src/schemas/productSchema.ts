@@ -5,7 +5,15 @@ export const ProductInputSchema = z.object({
         .string()
         .min(1, "Name must be at least 1 character long")
         .max(255, "Name cannot exceed 255 characters"),
-    price: z.string().min(1, "Required"),
+    category: z.string(),
+    stocks: z
+        .object({
+            size: z.string(),
+            color: z.string(),
+            quantity: z.coerce.number().gte(0),
+            price: z.coerce.number().gte(0),
+        })
+        .array(),
 })
 
 export type ProductInput = z.infer<typeof ProductInputSchema>
