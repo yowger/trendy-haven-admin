@@ -19,15 +19,15 @@ export async function POST(request: NextRequest) {
             )
         }
 
-        const body: ProductInput = await request.json()
-        const parsedBody = ProductInputSchema.parse(body)
-        const { name, price } = parsedBody
+        // const body: ProductInput = await request.json()
+        // const parsedBody = ProductInputSchema.parse(body)
+        // const { name, price } = parsedBody
 
-        const product = await prisma.product.create({
-            data: { name, price, storeId: "123123", categoryId: "test" },
-        })
+        // const product = await prisma.product.create({
+        //     data: { name, price, storeId: "123123", categoryId: "test" },
+        // })
 
-        return NextResponse.json({ product }, { status: 201 })
+        return NextResponse.json({ product: "test" }, { status: 201 })
     } catch (error) {
         const zodErrorResponse = zodCustomError(
             error,
