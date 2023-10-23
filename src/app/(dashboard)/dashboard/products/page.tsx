@@ -14,6 +14,7 @@ import {
 import { Separator } from "@/components/ui/separator"
 import DashboardTitle from "@/components/dashboard/DashboardTitle"
 import { DollarSign, MessageSquare, TrendingUp, Users } from "lucide-react"
+import ProductDataTable from "./components/ProductDataTable"
 // import { PRODUCT_QUERY_KEY } from "@/constants/queryKeys"
 
 // import DataTable from "./components/DataTable"
@@ -96,7 +97,9 @@ export default async function Products(): Promise<JSX.Element> {
                     </CardContent>
                 </Card>
             </div>
-            {/* <DataTable /> */}
+
+            <ProductDataTable />
+
             {/* </HydrateClient> */}
         </>
     )

@@ -31,8 +31,6 @@ export async function POST(request: NextRequest) {
             )
         }
 
-        const storeId = user.activeStore.id
-
         const body: ProductInput = await request.json()
         const parsedBody = ProductInputSchema.parse(body)
         console.log("parsed body: ", parsedBody)
@@ -50,9 +48,6 @@ export async function POST(request: NextRequest) {
         const stocksResult = await prisma.stock.createMany({
             data: stocksWithProductId,
         })
-
-        console.log("product: ", product)
-        console.log("stock:", stocks)
 
         return NextResponse.json(
             { product, stocks: stocksResult },
@@ -76,6 +71,25 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
     try {
+        const session = await getServerSession(authOptions)
+        const { user } = session ?? {}
+
+        if (!user) {
+            return NextResponse.json(
+                { error: "Account not found" },
+                { status: 404 }
+            )
+        }
+
+        if (!user.activeStore) {
+            return NextResponse.json(
+                { error: "Store id not found" },
+                { status: 404 }
+            )
+        }
+
+        const storeId = user.activeStore.id
+
         const { searchParams } = new URL(request.url)
 
         const pageNumber = +(searchParams.get("pageNumber") ?? 0)
@@ -83,10 +97,33 @@ export async function GET(request: NextRequest) {
         const skip = pageNumber * pageSize
 
         const [totalCount, products] = await prisma.$transaction([
-            prisma.product.count(),
+            prisma.product.count({
+                where: {
+                    storeId,
+                },
+            }),
             prisma.product.findMany({
                 skip,
                 take: pageSize,
+                where: {
+                    storeId,
+                },
+                select: {
+                    id: true,
+                    name: true,
+                    createdAt: true,
+                    updatedAt: true,
+                    Category: {
+                        select: {
+                            name: true,
+                        },
+                    },
+                    _count: {
+                        select: {
+                            Stock: true,
+                        },
+                    },
+                },
                 orderBy: [
                     {
                         createdAt: "desc",
