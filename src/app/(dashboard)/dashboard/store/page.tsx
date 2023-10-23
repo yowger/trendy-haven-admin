@@ -9,6 +9,8 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 
 export default function Store(): JSX.Element {
     return (
@@ -80,6 +82,24 @@ export default function Store(): JSX.Element {
                     </CardContent>
                 </Card>
             </div>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Share your store</CardTitle>
+                    <CardDescription>
+                        Copy this link and share it with your friends to
+                        showcase your amazing store to the world.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="flex space-x-2">
+                        <Input value="http://test.com/store/test" readOnly />
+                        <Button variant="secondary" className="shrink-0">
+                            Copy Link
+                        </Button>
+                    </div>
+                </CardContent>
+            </Card>
         </>
     )
 }
