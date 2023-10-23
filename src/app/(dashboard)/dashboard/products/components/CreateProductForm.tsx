@@ -21,7 +21,6 @@ import { Input } from "@/components/ui/input"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -38,9 +37,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
 import { cn } from "@/lib/utils"
-import { Label } from "@/components/ui/label"
 
 export default function CreateProductForm(): JSX.Element {
     const { toast } = useToast()
@@ -77,20 +74,12 @@ export default function CreateProductForm(): JSX.Element {
     const form = useForm<ProductInput>({
         resolver: zodResolver(ProductInputSchema),
         defaultValues: {
-            stocks: [{ size: "", color: "", quantity: 0, price: 0 }],
+            stocks: [{ sizeId: "", colorId: "", quantity: 0, price: "0" }],
         },
     })
 
     const onSubmit = (data: ProductInput): void => {
-        // const { name, price, category } = data
-        // form.reset({
-        //     name: "",
-        //     price: 0,
-        //     quantity: 0,
-        // })
-        console.log("form data: ", data)
-
-        // mutate({ name, price })
+        mutate({ ...data })
     }
 
     useEffect(() => {
@@ -102,7 +91,11 @@ export default function CreateProductForm(): JSX.Element {
 
     useEffect(() => {
         if (isSuccess) {
-            form.reset({})
+            form.reset({
+                name: "",
+                category: "",
+                stocks: [{ sizeId: "", colorId: "", quantity: 0, price: "0" }],
+            })
 
             toast({
                 duration: 2000,
@@ -122,7 +115,18 @@ export default function CreateProductForm(): JSX.Element {
 
     const onVariantAppend = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault()
-        append({ size: "", color: "", quantity: 0, price: 0 })
+        append({ sizeId: "", colorId: "", quantity: 0, price: "0" })
+    }
+
+    const onVariantRemove = (
+        event: React.MouseEvent<HTMLButtonElement>,
+        index: number
+    ) => {
+        event.preventDefault()
+
+        if (variantFields.length <= 1) return
+
+        remove(index)
     }
 
     return (
@@ -195,13 +199,18 @@ export default function CreateProductForm(): JSX.Element {
 
                 {variantFields.map((field, index) => {
                     return (
-                        <div key={field.id} className="md:flex gap-x-4 space-y-8">
+                        <div
+                            key={field.id}
+                            className="md:flex gap-x-4 space-y-8 md:space-y-0 items-start"
+                        >
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-8">
                                 <FormField
-                                    name={`stocks.${index}.size`}
+                                    name={`stocks.${index}.sizeId`}
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Size</FormLabel>
+                                            {index === 0 && (
+                                                <FormLabel>Size</FormLabel>
+                                            )}
                                             <Select
                                                 onValueChange={field.onChange}
                                                 defaultValue={field.value}
@@ -240,10 +249,12 @@ export default function CreateProductForm(): JSX.Element {
                                 />
 
                                 <FormField
-                                    name={`stocks.${index}.color`}
+                                    name={`stocks.${index}.colorId`}
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Color</FormLabel>
+                                            {index === 0 && (
+                                                <FormLabel>Color</FormLabel>
+                                            )}
                                             <Select
                                                 onValueChange={field.onChange}
                                                 defaultValue={field.value}
@@ -293,7 +304,7 @@ export default function CreateProductForm(): JSX.Element {
                                     }}
                                     control={form.control}
                                     name={`stocks.${index}.quantity`}
-                                    label="Quantity"
+                                    label={cn(index === 0 ? "Quantity" : "")}
                                     defaultValue=""
                                     errors={form.formState.errors}
                                 />
@@ -309,7 +320,7 @@ export default function CreateProductForm(): JSX.Element {
                                     }}
                                     control={form.control}
                                     name={`stocks.${index}.price`}
-                                    label="Price"
+                                    label={cn(index === 0 ? "Price" : "")}
                                     defaultValue=""
                                     errors={form.formState.errors}
                                 />
@@ -317,8 +328,10 @@ export default function CreateProductForm(): JSX.Element {
 
                             <div className="self-end">
                                 <Button
+                                    onClick={(event) =>
+                                        onVariantRemove(event, index)
+                                    }
                                     size="icon"
-                                    className="justify-self-end"
                                 >
                                     <Trash className="h-4 w-4" />
                                 </Button>

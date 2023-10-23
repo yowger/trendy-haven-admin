@@ -8,10 +8,10 @@ export const ProductInputSchema = z.object({
     category: z.string(),
     stocks: z
         .object({
-            size: z.string(),
-            color: z.string(),
+            sizeId: z.string().min(1, "Size is required"),
+            colorId: z.string().min(1, "Color is Required"),
             quantity: z.coerce.number().gte(0),
-            price: z.coerce.number().gte(0),
+            price: z.string().min(1, "PRice is required"),
         })
         .array(),
 })

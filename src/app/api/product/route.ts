@@ -7,6 +7,11 @@ import { authOptions } from "@/config/nextAuthOptions"
 import { ProductIdsSchema, ProductInputSchema } from "@/schemas/productSchema"
 import type { ProductInput, ProductIds } from "@/schemas/productSchema"
 
+/* 
+    one api endpoint for to create product and stocks for now to reduce network request. 
+    might separate as the application grows becomes more complex
+*/
+
 export async function POST(request: NextRequest) {
     try {
         const session = await getServerSession(authOptions)
@@ -19,15 +24,40 @@ export async function POST(request: NextRequest) {
             )
         }
 
-        // const body: ProductInput = await request.json()
-        // const parsedBody = ProductInputSchema.parse(body)
-        // const { name, price } = parsedBody
+        if (!user.activeStore) {
+            return NextResponse.json(
+                { error: "Store id not found" },
+                { status: 404 }
+            )
+        }
 
-        // const product = await prisma.product.create({
-        //     data: { name, price, storeId: "123123", categoryId: "test" },
-        // })
+        const storeId = user.activeStore.id
 
-        return NextResponse.json({ product: "test" }, { status: 201 })
+        const body: ProductInput = await request.json()
+        const parsedBody = ProductInputSchema.parse(body)
+        console.log("parsed body: ", parsedBody)
+        const { name, category, stocks } = parsedBody
+
+        const product = await prisma.product.create({
+            data: { name, categoryId: category, storeId: user.activeStore.id },
+        })
+
+        const stocksWithProductId = stocks.map((stock) => ({
+            ...stock,
+            productId: product.id,
+        }))
+
+        const stocksResult = await prisma.stock.createMany({
+            data: stocksWithProductId,
+        })
+
+        console.log("product: ", product)
+        console.log("stock:", stocks)
+
+        return NextResponse.json(
+            { product, stocks: stocksResult },
+            { status: 201 }
+        )
     } catch (error) {
         const zodErrorResponse = zodCustomError(
             error,
