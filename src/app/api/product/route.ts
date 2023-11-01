@@ -120,7 +120,7 @@ export async function GET(request: NextRequest) {
                     },
                     _count: {
                         select: {
-                            Stock: true,
+                            Stocks: true,
                         },
                     },
                 },
