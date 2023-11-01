@@ -41,6 +41,7 @@ model Store {
 model Product {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   name       String
+  active     Boolean
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   Store      Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
@@ -48,7 +49,7 @@ model Product {
   Category   Category @relation(fields: [categoryId], references: [id])
   categoryId String   @db.ObjectId
   images     Image[]
-  Stock      Stock[]
+  Stocks      Stock[]
 }
 
 model Category {
@@ -61,13 +62,13 @@ model Size {
   id    String  @id @default(auto()) @map("_id") @db.ObjectId
   name  String
   value String
-  Stock Stock[]
+  Stocks Stock[]
 }
 
 model Color {
   id    String  @id @default(auto()) @map("_id") @db.ObjectId
   name  String
-  Stock Stock[]
+  Stocks Stock[]
 }
 
 model Image {
@@ -80,15 +81,37 @@ model Image {
 }
 
 model Stock {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
   quantity  Int
   price     String
-  Product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId String  @db.ObjectId
-  Size      Size    @relation(fields: [sizeId], references: [id])
-  sizeId    String  @db.ObjectId
-  Color     Color   @relation(fields: [colorId], references: [id])
-  colorId   String  @db.ObjectId
+  active    Boolean     @default(true)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  Product   Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String      @db.ObjectId
+  Size      Size        @relation(fields: [sizeId], references: [id])
+  sizeId    String      @db.ObjectId
+  Color     Color       @relation(fields: [colorId], references: [id])
+  colorId   String      @db.ObjectId
+  OrderItems OrderItem[]
+}
+
+model Order {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  isPaid     Boolean     @default(false)
+  phone      String
+  address    String
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  OrderItems OrderItem[]
+}
+
+model OrderItem {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  orderId String @db.ObjectId
+  Order   Order  @relation(fields: [orderId], references: [id])
+  stockId String @db.ObjectId
+  Stock   Stock  @relation(fields: [stockId], references: [id])
 }
 
 enum Role {
